@@ -1,16 +1,23 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import sys
+from PySide2 import QtWidgets, QtCore
+import kalku
 
 
-# Press the green button in the gutter to run the script.
+class KalkuWindow(QtWidgets.QMainWindow):
+    def __init__(self, parent=None):
+        QtWidgets.QMainWindow.__init__(self, parent)
+        self.ui = kalku.Ui_MainWindow()
+        self.ui.setupUi(self)
+        self.mykalku = MyKalku()
+
+
+class MyKalku(QtCore.QThread):
+    pass
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    app = QtWidgets.QApplication()
+    widget = KalkuWindow()
+    widget.show()
+    app.exec_()
