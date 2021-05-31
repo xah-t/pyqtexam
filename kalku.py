@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'kalkulation.ui'
+## Form generated from reading UI file 'Kalkulation.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -21,25 +21,25 @@ class Ui_MainWindow(object):
         MainWindow.setMinimumSize(QSize(0, 0))
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.widget = QWidget(self.centralwidget)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(50, 40, 771, 511))
-        self.verticalLayout = QVBoxLayout(self.widget)
+        self.layoutWidget = QWidget(self.centralwidget)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(50, 40, 771, 511))
+        self.verticalLayout = QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.lineEdit_1 = QLineEdit(self.widget)
+        self.lineEdit_1 = QLineEdit(self.layoutWidget)
         self.lineEdit_1.setObjectName(u"lineEdit_1")
 
         self.horizontalLayout.addWidget(self.lineEdit_1)
 
-        self.lineEdit_2 = QLineEdit(self.widget)
+        self.lineEdit_2 = QLineEdit(self.layoutWidget)
         self.lineEdit_2.setObjectName(u"lineEdit_2")
 
         self.horizontalLayout.addWidget(self.lineEdit_2)
 
-        self.lineEdit_3 = QLineEdit(self.widget)
+        self.lineEdit_3 = QLineEdit(self.layoutWidget)
         self.lineEdit_3.setObjectName(u"lineEdit_3")
         self.lineEdit_3.setMaximumSize(QSize(100, 16777215))
 
@@ -50,21 +50,21 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.lineEdit_4 = QLineEdit(self.widget)
+        self.lineEdit_4 = QLineEdit(self.layoutWidget)
         self.lineEdit_4.setObjectName(u"lineEdit_4")
         self.lineEdit_4.setMinimumSize(QSize(200, 0))
         self.lineEdit_4.setMaximumSize(QSize(200, 16777215))
 
         self.horizontalLayout_2.addWidget(self.lineEdit_4)
 
-        self.lineEdit_5 = QLineEdit(self.widget)
+        self.lineEdit_5 = QLineEdit(self.layoutWidget)
         self.lineEdit_5.setObjectName(u"lineEdit_5")
         self.lineEdit_5.setMinimumSize(QSize(200, 0))
         self.lineEdit_5.setMaximumSize(QSize(200, 16777215))
 
         self.horizontalLayout_2.addWidget(self.lineEdit_5)
 
-        self.pushButton = QPushButton(self.widget)
+        self.pushButton = QPushButton(self.layoutWidget)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setMinimumSize(QSize(70, 0))
         self.pushButton.setMaximumSize(QSize(150, 16777215))
@@ -76,17 +76,17 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.lineEdit_6 = QLineEdit(self.widget)
+        self.lineEdit_6 = QLineEdit(self.layoutWidget)
         self.lineEdit_6.setObjectName(u"lineEdit_6")
 
         self.horizontalLayout_3.addWidget(self.lineEdit_6)
 
-        self.lineEdit_7 = QLineEdit(self.widget)
+        self.lineEdit_7 = QLineEdit(self.layoutWidget)
         self.lineEdit_7.setObjectName(u"lineEdit_7")
 
         self.horizontalLayout_3.addWidget(self.lineEdit_7)
 
-        self.lineEdit_8 = QLineEdit(self.widget)
+        self.lineEdit_8 = QLineEdit(self.layoutWidget)
         self.lineEdit_8.setObjectName(u"lineEdit_8")
 
         self.horizontalLayout_3.addWidget(self.lineEdit_8)
@@ -94,14 +94,20 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
+        self.tableView = QTableView(self.layoutWidget)
+        self.tableView.setObjectName(u"tableView")
+        self.tableView.setMaximumSize(QSize(16777215, 100))
+
+        self.verticalLayout.addWidget(self.tableView)
+
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.pushButton_2 = QPushButton(self.widget)
+        self.pushButton_2 = QPushButton(self.layoutWidget)
         self.pushButton_2.setObjectName(u"pushButton_2")
 
         self.horizontalLayout_4.addWidget(self.pushButton_2)
 
-        self.pushButton_3 = QPushButton(self.widget)
+        self.pushButton_3 = QPushButton(self.layoutWidget)
         self.pushButton_3.setObjectName(u"pushButton_3")
 
         self.horizontalLayout_4.addWidget(self.pushButton_3)
