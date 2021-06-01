@@ -13,7 +13,7 @@ class KalkuWindow(QtWidgets.QMainWindow):
         #self.ui.lineEdit_8.setHidden(True)
         self.mykalku = MyKalku()
         self.initSqlModel()
-        self.ui.pushButton_2.connect(self.onPBSaveclicked)
+        self.ui.pushButton_2.clicked.connect(self.onPBSaveclicked)
 
     def initSqlModel(self):
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')

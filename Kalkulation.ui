@@ -34,10 +34,25 @@
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QLineEdit" name="lineEdit_1">
+         <property name="toolTip">
+          <string/>
+         </property>
+         <property name="statusTip">
+          <string/>
+         </property>
+         <property name="whatsThis">
+          <string/>
+         </property>
+         <property name="accessibleName">
+          <string/>
+         </property>
          <property name="inputMask">
-          <string>Наименование</string>
+          <string/>
          </property>
          <property name="text">
+          <string/>
+         </property>
+         <property name="placeholderText">
           <string>Наименование</string>
          </property>
         </widget>
@@ -45,9 +60,12 @@
        <item>
         <widget class="QLineEdit" name="lineEdit_2">
          <property name="inputMask">
-          <string>Артикул</string>
+          <string/>
          </property>
          <property name="text">
+          <string/>
+         </property>
+         <property name="placeholderText">
           <string>Артикул</string>
          </property>
         </widget>
@@ -61,9 +79,12 @@
           </size>
          </property>
          <property name="inputMask">
-          <string>Кол-во, шт.</string>
+          <string/>
          </property>
          <property name="text">
+          <string/>
+         </property>
+         <property name="placeholderText">
           <string>Кол-во, шт.</string>
          </property>
         </widget>
@@ -87,9 +108,12 @@
           </size>
          </property>
          <property name="inputMask">
-          <string>Площадь (Smm2)</string>
+          <string/>
          </property>
          <property name="text">
+          <string/>
+         </property>
+         <property name="placeholderText">
           <string>Площадь (Smm2)</string>
          </property>
         </widget>
@@ -109,6 +133,9 @@
           </size>
          </property>
          <property name="text">
+          <string/>
+         </property>
+         <property name="placeholderText">
           <string>Глубина (Lmm)</string>
          </property>
         </widget>
@@ -139,9 +166,12 @@
        <item>
         <widget class="QLineEdit" name="lineEdit_6">
          <property name="inputMask">
-          <string>Трудоемкость</string>
+          <string/>
          </property>
          <property name="text">
+          <string/>
+         </property>
+         <property name="placeholderText">
           <string>Трудоемкость</string>
          </property>
         </widget>
@@ -149,9 +179,12 @@
        <item>
         <widget class="QLineEdit" name="lineEdit_7">
          <property name="inputMask">
-          <string>Себестоимость</string>
+          <string/>
          </property>
          <property name="text">
+          <string/>
+         </property>
+         <property name="placeholderText">
           <string>Себестоимость</string>
          </property>
         </widget>
@@ -159,6 +192,9 @@
        <item>
         <widget class="QLineEdit" name="lineEdit_8">
          <property name="text">
+          <string/>
+         </property>
+         <property name="placeholderText">
           <string>срок изготовления партии</string>
          </property>
         </widget>
