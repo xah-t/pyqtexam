@@ -14,10 +14,11 @@ class KalkuWindow(QtWidgets.QMainWindow):
         self.mykalku = MyKalku()
         self.initSqlModel()
         self.ui.pushButton_2.clicked.connect(self.onPBSaveclicked)
+        #self.ui.lineEdit_1.currentTextChanged.connect(self.readlineEdit_1ChangeText)
 
     def initSqlModel(self):
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
-        self.db.setDatabaseName('fiedlist.db')
+        self.db.setDatabaseName('fieldlist.db')
         self.model = QtSql.QSqlTableModel()
         self.model.setTable('field')
 
@@ -32,7 +33,7 @@ class KalkuWindow(QtWidgets.QMainWindow):
         self.model.setHeaderData(6, QtCore.Qt.Horizontal, "Cost, rub")
 
         self.ui.tableView.setModel(self.model)
-        self.ui.tableView.setColumnHidden(0, True)  # скрытие столбцов
+        #self.ui.tableView.setColumnHidden(0, True)  # скрытие столбцов
         self.ui.tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
 
     def onPBSaveclicked(self):
@@ -40,12 +41,16 @@ class KalkuWindow(QtWidgets.QMainWindow):
         self.model.insertRows(index, 1)
         self.model.setData(self.model.index(index, 1), self.ui.lineEdit_1.text())
         self.model.setData(self.model.index(index, 2), self.ui.lineEdit_2.text())
-        self.model.setData(self.model.index(index, 3), self.ui.lineEdit_3.text())
+        #self.model.setData(self.model.index(index, 3), self.ui.lineEdit_3.text())
         self.model.setData(self.model.index(index, 4), self.ui.lineEdit_4.text())
-        self.model.setData(self.model.index(index, 5), self.ui.lineEdit_5.text())
-        self.model.setData(self.model.index(index, 6), self.ui.lineEdit_6.text())
+        #self.model.setData(self.model.index(index, 5), self.ui.lineEdit_5.text())
+        #self.model.setData(self.model.index(index, 6), self.ui.lineEdit_6.text())
         self.model.submitAll()
         #print(onPBSaveclicked)
+
+
+    def readlineEdit_1ChangeText(self):
+        pass
 
     def closeEvent(self, event: QtCore.QEvent.Close):
         reply = QtWidgets.QMessageBox.question(self, "Выход", "Вы действительно хотите выйти?")
