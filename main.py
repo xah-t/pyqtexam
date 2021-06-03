@@ -5,6 +5,7 @@ import kalku
 
 class KalkuWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
+        print('init')
         QtWidgets.QMainWindow.__init__(self, parent)
         self.ui = kalku.Ui_MainWindow()
         self.ui.setupUi(self)
@@ -15,6 +16,11 @@ class KalkuWindow(QtWidgets.QMainWindow):
         self.initSqlModel()
         self.ui.pushButton_2.clicked.connect(self.onPBSaveclicked)
         #self.ui.lineEdit_1.currentTextChanged.connect(self.readlineEdit_1ChangeText)
+        # self.ui.lineEdit_4.setText(str(text))
+        #
+        # le4 = self.ui.lineEdit_4.text()
+        # print(le4)
+
 
     def initSqlModel(self):
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
@@ -43,10 +49,15 @@ class KalkuWindow(QtWidgets.QMainWindow):
         self.model.setData(self.model.index(index, 2), self.ui.lineEdit_2.text())
         #self.model.setData(self.model.index(index, 3), self.ui.lineEdit_3.text())
         self.model.setData(self.model.index(index, 4), self.ui.lineEdit_4.text())
+        #le4 = self.model.setData(self.model.index(index, 4), self.ui.lineEdit_4.text())
         #self.model.setData(self.model.index(index, 5), self.ui.lineEdit_5.text())
         #self.model.setData(self.model.index(index, 6), self.ui.lineEdit_6.text())
         self.model.submitAll()
-        #print(onPBSaveclicked)
+        #self.ui.lineEdit_4.QLineEdit()
+        le4 = self.ui.lineEdit_4.text()
+        print(le4)
+
+        print('onPBSaveclicked')
 
 
     def readlineEdit_1ChangeText(self):
@@ -75,9 +86,13 @@ class KalkuWindow(QtWidgets.QMainWindow):
 
 class MyKalku(QtCore.QThread):
 
-    def layuot_speed():
-        pass
-    pass
+    def layuot_speed(le_4):
+        lsp = ui.lineEdit_4.text()*15
+        print(lsp)
+
+    # dool = layuot_speed(mykalku.lineEdit_4)
+    # print(dool)
+
 
 if __name__ == '__main__':
 
