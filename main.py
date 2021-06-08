@@ -7,20 +7,24 @@ class KalkuWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         print('init')
         QtWidgets.QMainWindow.__init__(self, parent)
+        self.mykalkul = MyKalkul()
         self.ui = kalku.Ui_MainWindow()
         self.ui.setupUi(self)
         #self.ui.lineEdit_6.setHidden(True)
         #self.ui.lineEdit_7.setHidden(True)
         #self.ui.lineEdit_8.setHidden(True)
-        self.mykalku = MyKalku()
+
         self.initSqlModel()
         self.ui.pushButton_2.clicked.connect(self.onPBSaveclicked)
-        #self.ui.lineEdit_1.currentTextChanged.connect(self.readlineEdit_1ChangeText)
-        # self.ui.lineEdit_4.setText(str(text))
-        #
-        # le4 = self.ui.lineEdit_4.text()
-        # print(le4)
+        self.ui.pushButton.clicked.connect(self.onPBRaschetclicked)
+        self.mykalkul.signalTrudoemkost.connect(self.setLineEditTrudoemkost, QtCore.Qt.QueuedConnection)
+        self.mykalkul.signalSebestoimost.connect(self.setLineEditSebestoimost, QtCore.Qt.QueuedConnection)
 
+    def setLineEditTrudoemkost(self, text):
+        self.ui.lineEdit_6.setText(text)
+
+    def setLineEditSebestoimost(self, text):
+        self.ui.lineEdit_7.setText(text)
 
     def initSqlModel(self):
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
@@ -42,6 +46,15 @@ class KalkuWindow(QtWidgets.QMainWindow):
         #self.ui.tableView.setColumnHidden(0, True)  # скрытие столбцов
         self.ui.tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
 
+    def onPBRaschetclicked(self):
+        self.mykalkul.setParameters(self.ui.lineEdit_1.text(),
+                                    self.ui.lineEdit_2.text(),
+                                    self.ui.lineEdit_3.text(),
+                                    self.ui.lineEdit_4.text(),
+                                    self.ui.lineEdit_5.text())
+        self.mykalkul.start()
+        print('onPBRaschetclicked')
+
     def onPBSaveclicked(self):
         index = self.model.rowCount()
         self.model.insertRows(index, 1)
@@ -49,19 +62,18 @@ class KalkuWindow(QtWidgets.QMainWindow):
         self.model.setData(self.model.index(index, 2), self.ui.lineEdit_2.text())
         #self.model.setData(self.model.index(index, 3), self.ui.lineEdit_3.text())
         self.model.setData(self.model.index(index, 4), self.ui.lineEdit_4.text())
-        #le4 = self.model.setData(self.model.index(index, 4), self.ui.lineEdit_4.text())
         #self.model.setData(self.model.index(index, 5), self.ui.lineEdit_5.text())
         #self.model.setData(self.model.index(index, 6), self.ui.lineEdit_6.text())
         self.model.submitAll()
-        #self.ui.lineEdit_4.QLineEdit()
+
+
+
         le4 = self.ui.lineEdit_4.text()
         print(le4)
-
         print('onPBSaveclicked')
 
-
-    def readlineEdit_1ChangeText(self):
-        pass
+    def setLineEdit_4Text(self, text):
+        self.lineEdit_4.setText(text)
 
     def closeEvent(self, event: QtCore.QEvent.Close):
         reply = QtWidgets.QMessageBox.question(self, "Выход", "Вы действительно хотите выйти?")
@@ -84,14 +96,35 @@ class KalkuWindow(QtWidgets.QMainWindow):
         return QtWidgets.QMainWindow.event(self, event)
 
 
-class MyKalku(QtCore.QThread):
+class MyKalkul(QtCore.QThread):
+    signalTrudoemkost = QtCore.Signal(str)
+    signalSebestoimost = QtCore.Signal(str)
 
-    def layuot_speed(le_4):
-        lsp = ui.lineEdit_4.text()*15
-        print(lsp)
+    def __init__(self, parent=None):
+        super(MyKalkul, self).__init__(parent)
 
-    # dool = layuot_speed(mykalku.lineEdit_4)
-    # print(dool)
+    def setParameters(self, naimenovanie, artikul, kolichestvo, ploshad, glubina):
+        self.naimenovanie = naimenovanie
+
+        self.artikul = artikul
+        self.kolichestvo = kolichestvo
+        self.ploshad = ploshad
+        self.glubina = glubina
+
+    def run(self):
+        print(self.naimenovanie)
+        print(self.artikul)
+        print(self.kolichestvo)
+        print(self.ploshad)
+        print(self.glubina)
+        resultTrud = int(self.ploshad) * 180 / 3600 # трудоемкость = площадь обработки*кол-во секунт / 3600(перевод в н/ч)
+        resultSebest = resultTrud * 2350 # в дальнейшем - вписать ссылку на lineEdit с ценой нормочаса
+        print(f"Трудоёмкость {resultTrud}")
+        print(f"Себестоимость {resultSebest}")
+
+        self.signalTrudoemkost.emit(str(resultTrud))
+        self.signalSebestoimost.emit(str(resultSebest))
+
 
 
 if __name__ == '__main__':
