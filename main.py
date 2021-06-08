@@ -19,12 +19,16 @@ class KalkuWindow(QtWidgets.QMainWindow):
         self.ui.pushButton.clicked.connect(self.onPBRaschetclicked)
         self.mykalkul.signalTrudoemkost.connect(self.setLineEditTrudoemkost, QtCore.Qt.QueuedConnection)
         self.mykalkul.signalSebestoimost.connect(self.setLineEditSebestoimost, QtCore.Qt.QueuedConnection)
+        self.mykalkul.signalVremyapartii.connect(self.setLineEditVremyaPartii, QtCore.Qt.QueuedConnection)
 
     def setLineEditTrudoemkost(self, text):
         self.ui.lineEdit_6.setText(text)
 
     def setLineEditSebestoimost(self, text):
         self.ui.lineEdit_7.setText(text)
+
+    def setLineEditVremyaPartii(self, text):
+        self.ui.lineEdit_8.setText(text)
 
     def initSqlModel(self):
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
@@ -99,6 +103,7 @@ class KalkuWindow(QtWidgets.QMainWindow):
 class MyKalkul(QtCore.QThread):
     signalTrudoemkost = QtCore.Signal(str)
     signalSebestoimost = QtCore.Signal(str)
+    signalVremyapartii = QtCore.Signal(str)
 
     def __init__(self, parent=None):
         super(MyKalkul, self).__init__(parent)
@@ -117,13 +122,17 @@ class MyKalkul(QtCore.QThread):
         print(self.kolichestvo)
         print(self.ploshad)
         print(self.glubina)
-        resultTrud = int(self.ploshad) * 180 / 3600 # трудоемкость = площадь обработки*кол-во секунт / 3600(перевод в н/ч)
+        skorost = int(self.ploshad) * 1.8 # 1.8 - стандартное время обработки 1мм2
+        skorostsloev = int(self.glubina) * skorost
+        resultTrud = skorostsloev / 3600 # трудоемкость = площадь обработки*кол-во секунт / 3600(перевод в н/ч)
         resultSebest = resultTrud * 2350 # в дальнейшем - вписать ссылку на lineEdit с ценой нормочаса
+        vremyapartii = skorostsloev * int(self.kolichestvo)
         print(f"Трудоёмкость {resultTrud}")
         print(f"Себестоимость {resultSebest}")
 
         self.signalTrudoemkost.emit(str(resultTrud))
         self.signalSebestoimost.emit(str(resultSebest))
+        self.signalVremyapartii.emit(str(vremyapartii))
 
 
 
