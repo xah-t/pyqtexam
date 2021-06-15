@@ -17,6 +17,7 @@ class KalkuWindow(QtWidgets.QMainWindow):
         self.initSqlModel()
         self.ui.pushButton_2.clicked.connect(self.onPBSaveclicked)
         self.ui.pushButton.clicked.connect(self.onPBRaschetclicked)
+        self.ui.pushButton_3.clicked.connect(self.onPBMoveclicked)
         self.mykalkul.signalTrudoemkost.connect(self.setLineEditTrudoemkost, QtCore.Qt.QueuedConnection)
         self.mykalkul.signalSebestoimost.connect(self.setLineEditSebestoimost, QtCore.Qt.QueuedConnection)
         self.mykalkul.signalVremyapartii.connect(self.setLineEditVremyaPartii, QtCore.Qt.QueuedConnection)
@@ -47,7 +48,7 @@ class KalkuWindow(QtWidgets.QMainWindow):
         self.model.setHeaderData(6, QtCore.Qt.Horizontal, "Cost, rub")
 
         self.ui.tableView.setModel(self.model)
-        #self.ui.tableView.setColumnHidden(0, True)  # скрытие столбцов
+        self.ui.tableView.setColumnHidden(0, True)  # скрытие столбцов
         self.ui.tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
 
     def onPBRaschetclicked(self):
@@ -65,16 +66,24 @@ class KalkuWindow(QtWidgets.QMainWindow):
         self.model.setData(self.model.index(index, 1), self.ui.lineEdit_1.text())
         self.model.setData(self.model.index(index, 2), self.ui.lineEdit_2.text())
         #self.model.setData(self.model.index(index, 3), self.ui.lineEdit_3.text())
-        self.model.setData(self.model.index(index, 4), self.ui.lineEdit_4.text())
-        #self.model.setData(self.model.index(index, 5), self.ui.lineEdit_5.text())
-        #self.model.setData(self.model.index(index, 6), self.ui.lineEdit_6.text())
+        self.model.setData(self.model.index(index, 3), self.ui.lineEdit_4.text())
+        self.model.setData(self.model.index(index, 4), self.ui.lineEdit_5.text())
+        self.model.setData(self.model.index(index, 5), self.ui.lineEdit_6.text())
+        self.model.setData(self.model.index(index, 6), self.ui.lineEdit_7.text())
         self.model.submitAll()
 
-
-
-        le4 = self.ui.lineEdit_4.text()
-        print(le4)
         print('onPBSaveclicked')
+
+    def onPBMoveclicked(self):
+        index_list = []
+        for model_index in self.ui.tableView.selectionModel().selectedRows():
+            index = QtCore.QPersistentModelIndex(model_index)
+            index_list.append(index)
+
+        for index in index_list:
+             self.model.removeRow(index.row())
+
+        print("onPBMoveClicked")
 
     def setLineEdit_4Text(self, text):
         self.lineEdit_4.setText(text)
@@ -89,9 +98,6 @@ class KalkuWindow(QtWidgets.QMainWindow):
             event.ignore()
             print('Window not closed')
 
-    # def moveEvent(self, event: QtCore.QEvent.Move) -> None:
-    #     reply = QtCore.QEvent.Move
-    #     print(event.pos())
 
     def event(self, event: QtCore.QEvent) -> bool:
         #print(event.type())
@@ -135,7 +141,65 @@ class MyKalkul(QtCore.QThread):
         self.signalSebestoimost.emit(str(resultSebest))
         self.signalVremyapartii.emit(str(vremyapartii))
 
+"""
+"""
+#Пример создания дочернего окна из основной формы
+"""
 
+import sys
+ 
+from PyQt4 import QtGui, QtCore
+ 
+ 
+class SecondWindow(QtGui.QWidget):
+    def __init__(self, parent=None):
+        # Передаём ссылку на родительский элемент и чтобы виджет
+        # отображался как самостоятельное окно указываем тип окна
+        super().__init__(parent, QtCore.Qt.Window)
+        self.build()
+ 
+    def build(self):
+        self.mainLayout = QtGui.QVBoxLayout()
+ 
+        self.buttons = []
+        for i in range(5):
+            but = QtGui.QPushButton('button {}'.format(i), self)
+            self.mainLayout.addWidget(but)
+            self.buttons.append(but)
+ 
+        self.setLayout(self.mainLayout)
+ 
+ 
+class MainWindow(QtGui.QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.secondWin = None
+        self.build()
+ 
+    def build(self):
+        self.mainLayout = QtGui.QVBoxLayout()
+ 
+        self.lab = QtGui.QLabel('simple text', self)
+        self.mainLayout.addWidget(self.lab)
+ 
+        self.but1 = QtGui.QPushButton('open window', self)
+        self.but1.clicked.connect(self.openWin)
+        self.mainLayout.addWidget(self.but1)
+ 
+        self.setLayout(self.mainLayout)
+ 
+    def openWin(self):
+        if not self.secondWin:
+            self.secondWin = SecondWindow(self)
+        self.secondWin.show()
+ 
+ 
+if __name__ == "__main__":
+    app = QtGui.QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec_())
+"""
 
 if __name__ == '__main__':
 
