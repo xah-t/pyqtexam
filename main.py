@@ -33,19 +33,20 @@ class KalkuWindow(QtWidgets.QMainWindow):
 
     def initSqlModel(self):
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
-        self.db.setDatabaseName('fieldlist.db')
+        self.db.setDatabaseName('C:/Users/nva10/Downloads/fieldlist_var2.db') #  C:/Users/nva10/Downloads/fieldlist_var2.db
         self.model = QtSql.QSqlTableModel()
-        self.model.setTable('field')
+        self.model.setTable('fieldlist')
 
         self.model.select()  # подключение БД
         # инициализация БД(создание)
         self.model.setHeaderData(0, QtCore.Qt.Horizontal, "ID")
-        self.model.setHeaderData(1, QtCore.Qt.Horizontal, "Name")
-        self.model.setHeaderData(2, QtCore.Qt.Horizontal, "Articul №")
-        self.model.setHeaderData(3, QtCore.Qt.Horizontal, "S, mm2")
-        self.model.setHeaderData(4, QtCore.Qt.Horizontal, "L, mm")
-        self.model.setHeaderData(5, QtCore.Qt.Horizontal, "labour, $/h")
-        self.model.setHeaderData(6, QtCore.Qt.Horizontal, "Cost, rub")
+        self.model.setHeaderData(1, QtCore.Qt.Horizontal, "Наименование")
+        self.model.setHeaderData(2, QtCore.Qt.Horizontal, "Децимальный №")
+        self.model.setHeaderData(3, QtCore.Qt.Horizontal, "Площадь, мм2")
+        self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Глубина, мм")
+        self.model.setHeaderData(5, QtCore.Qt.Horizontal, "Трудоемкость, н/ч")
+        self.model.setHeaderData(6, QtCore.Qt.Horizontal, "Стоимость, руб. с НДС") # заменить на стоимость изделия(сложить трудоемкость и материал)
+        self.model.setHeaderData(7, QtCore.Qt.Horizontal, "Срок изготовления, час")
 
         self.ui.tableView.setModel(self.model)
         self.ui.tableView.setColumnHidden(0, True)  # скрытие столбцов
@@ -70,19 +71,23 @@ class KalkuWindow(QtWidgets.QMainWindow):
         self.model.setData(self.model.index(index, 4), self.ui.lineEdit_5.text())
         self.model.setData(self.model.index(index, 5), self.ui.lineEdit_6.text())
         self.model.setData(self.model.index(index, 6), self.ui.lineEdit_7.text())
+        self.model.setData(self.model.index(index, 7), self.ui.lineEdit_8.text())
         self.model.submitAll()
 
         print('onPBSaveclicked')
 
     def onPBMoveclicked(self):
-        index_list = []
-        for model_index in self.ui.tableView.selectionModel().selectedRows():
-            index = QtCore.QPersistentModelIndex(model_index)
-            index_list.append(index)
+        if self.ui.tableView.currentIndex().row() > -1:
 
-        for index in index_list:
-             self.model.removeRow(index.row())
+            index_list = []
+            for model_index in self.ui.tableView.selectionModel().selectedRows():
+                index = QtCore.QPersistentModelIndex(model_index)
+                index_list.append(index)
 
+            for index in index_list:
+                 self.model.removeRow(index.row())
+        else:
+            QtWidgets.QMessageBox.about(self, 'Message', 'Выберите строку')
         print("onPBMoveClicked")
 
     def setLineEdit_4Text(self, text):
@@ -115,8 +120,8 @@ class MyKalkul(QtCore.QThread):
         super(MyKalkul, self).__init__(parent)
 
     def setParameters(self, naimenovanie, artikul, kolichestvo, ploshad, glubina):
-        self.naimenovanie = naimenovanie
 
+        self.naimenovanie = naimenovanie
         self.artikul = artikul
         self.kolichestvo = kolichestvo
         self.ploshad = ploshad
