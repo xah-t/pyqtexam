@@ -29,52 +29,52 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_4 = QVBoxLayout()
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.textEdit_4 = QTextEdit(self.layoutWidget)
-        self.textEdit_4.setObjectName(u"textEdit_4")
-        self.textEdit_4.setEnabled(False)
-        self.textEdit_4.setReadOnly(True)
+        self.TENaimenovanie = QTextEdit(self.layoutWidget)
+        self.TENaimenovanie.setObjectName(u"textEdit_4")
+        self.TENaimenovanie.setEnabled(False)
+        self.TENaimenovanie.setReadOnly(True)
 
-        self.verticalLayout_4.addWidget(self.textEdit_4)
+        self.verticalLayout_4.addWidget(self.TENaimenovanie)
 
-        self.lineEdit_1 = QLineEdit(self.layoutWidget)
-        self.lineEdit_1.setObjectName(u"lineEdit_1")
+        self.LENaimenovanie = QLineEdit(self.layoutWidget)
+        self.LENaimenovanie.setObjectName(u"lineEdit_1")
 
-        self.verticalLayout_4.addWidget(self.lineEdit_1)
+        self.verticalLayout_4.addWidget(self.LENaimenovanie)
 
 
         self.horizontalLayout.addLayout(self.verticalLayout_4)
 
         self.verticalLayout_5 = QVBoxLayout()
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.textEdit_5 = QTextEdit(self.layoutWidget)
-        self.textEdit_5.setObjectName(u"textEdit_5")
-        self.textEdit_5.setEnabled(False)
-        self.textEdit_5.setReadOnly(True)
+        self.TEArticul = QTextEdit(self.layoutWidget)
+        self.TEArticul.setObjectName(u"textEdit_5")
+        self.TEArticul.setEnabled(False)
+        self.TEArticul.setReadOnly(True)
 
-        self.verticalLayout_5.addWidget(self.textEdit_5)
+        self.verticalLayout_5.addWidget(self.TEArticul)
 
-        self.lineEdit_2 = QLineEdit(self.layoutWidget)
-        self.lineEdit_2.setObjectName(u"lineEdit_2")
+        self.LEArticul = QLineEdit(self.layoutWidget)
+        self.LEArticul.setObjectName(u"lineEdit_2")
 
-        self.verticalLayout_5.addWidget(self.lineEdit_2)
+        self.verticalLayout_5.addWidget(self.LEArticul)
 
 
         self.horizontalLayout.addLayout(self.verticalLayout_5)
 
         self.verticalLayout_6 = QVBoxLayout()
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.textEdit_6 = QTextEdit(self.layoutWidget)
-        self.textEdit_6.setObjectName(u"textEdit_6")
-        self.textEdit_6.setEnabled(False)
-        self.textEdit_6.setReadOnly(True)
+        self.TEKolichestvo = QTextEdit(self.layoutWidget)
+        self.TEKolichestvo.setObjectName(u"textEdit_6")
+        self.TEKolichestvo.setEnabled(False)
+        self.TEKolichestvo.setReadOnly(True)
 
-        self.verticalLayout_6.addWidget(self.textEdit_6)
+        self.verticalLayout_6.addWidget(self.TEKolichestvo)
 
-        self.lineEdit_3 = QLineEdit(self.layoutWidget)
-        self.lineEdit_3.setObjectName(u"lineEdit_3")
-        self.lineEdit_3.setMaximumSize(QSize(300, 16777215))
+        self.LEKolichestvo = QLineEdit(self.layoutWidget)
+        self.LEKolichestvo.setObjectName(u"lineEdit_3")
+        self.LEKolichestvo.setMaximumSize(QSize(300, 16777215))
 
-        self.verticalLayout_6.addWidget(self.lineEdit_3)
+        self.verticalLayout_6.addWidget(self.LEKolichestvo)
 
 
         self.horizontalLayout.addLayout(self.verticalLayout_6)
@@ -87,51 +87,51 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.textEdit = QTextEdit(self.layoutWidget1)
-        self.textEdit.setObjectName(u"textEdit")
-        self.textEdit.setEnabled(False)
-        self.textEdit.setReadOnly(True)
+        self.TETrudoemkost = QTextEdit(self.layoutWidget1)
+        self.TETrudoemkost.setObjectName(u"textEdit")
+        self.TETrudoemkost.setEnabled(False)
+        self.TETrudoemkost.setReadOnly(True)
 
-        self.verticalLayout.addWidget(self.textEdit)
+        self.verticalLayout.addWidget(self.TETrudoemkost)
 
-        self.lineEdit_6 = QLineEdit(self.layoutWidget1)
-        self.lineEdit_6.setObjectName(u"lineEdit_6")
+        self.LETrudoemkost = QLineEdit(self.layoutWidget1)
+        self.LETrudoemkost.setObjectName(u"lineEdit_6_Trudoemkost")
 
-        self.verticalLayout.addWidget(self.lineEdit_6)
+        self.verticalLayout.addWidget(self.LETrudoemkost)
 
 
         self.horizontalLayout_3.addLayout(self.verticalLayout)
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.textEdit_2 = QTextEdit(self.layoutWidget1)
-        self.textEdit_2.setObjectName(u"textEdit_2")
-        self.textEdit_2.setEnabled(False)
-        self.textEdit_2.setReadOnly(True)
+        self.TESebestoimost = QTextEdit(self.layoutWidget1)
+        self.TESebestoimost.setObjectName(u"textEdit_2")
+        self.TESebestoimost.setEnabled(False)
+        self.TESebestoimost.setReadOnly(True)
 
-        self.verticalLayout_2.addWidget(self.textEdit_2)
+        self.verticalLayout_2.addWidget(self.TESebestoimost)
 
-        self.lineEdit_7 = QLineEdit(self.layoutWidget1)
-        self.lineEdit_7.setObjectName(u"lineEdit_7")
+        self.LESebestoimost = QLineEdit(self.layoutWidget1)
+        self.LESebestoimost.setObjectName(u"lineEdit_7_Sebestoimost")
 
-        self.verticalLayout_2.addWidget(self.lineEdit_7)
+        self.verticalLayout_2.addWidget(self.LESebestoimost)
 
 
         self.horizontalLayout_3.addLayout(self.verticalLayout_2)
 
         self.verticalLayout_3 = QVBoxLayout()
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.textEdit_3 = QTextEdit(self.layoutWidget1)
-        self.textEdit_3.setObjectName(u"textEdit_3")
-        self.textEdit_3.setEnabled(False)
-        self.textEdit_3.setReadOnly(True)
+        self.TEVremyapartii = QTextEdit(self.layoutWidget1)
+        self.TEVremyapartii.setObjectName(u"textEdit_3")
+        self.TEVremyapartii.setEnabled(False)
+        self.TEVremyapartii.setReadOnly(True)
 
-        self.verticalLayout_3.addWidget(self.textEdit_3)
+        self.verticalLayout_3.addWidget(self.TEVremyapartii)
 
-        self.lineEdit_8 = QLineEdit(self.layoutWidget1)
-        self.lineEdit_8.setObjectName(u"lineEdit_8")
+        self.LEVremyapartii = QLineEdit(self.layoutWidget1)
+        self.LEVremyapartii.setObjectName(u"lineEdit_8_Vremyapartii")
 
-        self.verticalLayout_3.addWidget(self.lineEdit_8)
+        self.verticalLayout_3.addWidget(self.LEVremyapartii)
 
 
         self.horizontalLayout_3.addLayout(self.verticalLayout_3)
@@ -142,15 +142,15 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4 = QHBoxLayout(self.layoutWidget2)
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
         self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.pushButton_2 = QPushButton(self.layoutWidget2)
-        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.PBSaved = QPushButton(self.layoutWidget2)
+        self.PBSaved.setObjectName(u"PBSaved")
 
-        self.horizontalLayout_4.addWidget(self.pushButton_2)
+        self.horizontalLayout_4.addWidget(self.PBSaved)
 
-        self.pushButton_3 = QPushButton(self.layoutWidget2)
-        self.pushButton_3.setObjectName(u"pushButton_3")
+        self.PBMoved = QPushButton(self.layoutWidget2)
+        self.PBMoved.setObjectName(u"PBMoved")
 
-        self.horizontalLayout_4.addWidget(self.pushButton_3)
+        self.horizontalLayout_4.addWidget(self.PBMoved)
 
         self.layoutWidget3 = QWidget(self.centralwidget)
         self.layoutWidget3.setObjectName(u"layoutWidget3")
@@ -160,48 +160,48 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_7 = QVBoxLayout()
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.textEdit_7 = QTextEdit(self.layoutWidget3)
-        self.textEdit_7.setObjectName(u"textEdit_7")
-        self.textEdit_7.setEnabled(False)
-        self.textEdit_7.setReadOnly(True)
+        self.TEPloshad = QTextEdit(self.layoutWidget3)
+        self.TEPloshad.setObjectName(u"textEdit_7")
+        self.TEPloshad.setEnabled(False)
+        self.TEPloshad.setReadOnly(True)
 
-        self.verticalLayout_7.addWidget(self.textEdit_7)
+        self.verticalLayout_7.addWidget(self.TEPloshad)
 
-        self.lineEdit_4 = QLineEdit(self.layoutWidget3)
-        self.lineEdit_4.setObjectName(u"lineEdit_4")
-        self.lineEdit_4.setMinimumSize(QSize(200, 0))
-        self.lineEdit_4.setMaximumSize(QSize(200, 16777215))
+        self.LEPloshad = QLineEdit(self.layoutWidget3)
+        self.LEPloshad.setObjectName(u"lineEdit_4")
+        self.LEPloshad.setMinimumSize(QSize(200, 0))
+        self.LEPloshad.setMaximumSize(QSize(200, 16777215))
 
-        self.verticalLayout_7.addWidget(self.lineEdit_4)
+        self.verticalLayout_7.addWidget(self.LEPloshad)
 
 
         self.horizontalLayout_2.addLayout(self.verticalLayout_7)
 
         self.verticalLayout_8 = QVBoxLayout()
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
-        self.textEdit_9 = QTextEdit(self.layoutWidget3)
-        self.textEdit_9.setObjectName(u"textEdit_9")
-        self.textEdit_9.setEnabled(False)
-        self.textEdit_9.setReadOnly(True)
+        self.TEGlubina = QTextEdit(self.layoutWidget3)
+        self.TEGlubina.setObjectName(u"textEdit_9")
+        self.TEGlubina.setEnabled(False)
+        self.TEGlubina.setReadOnly(True)
 
-        self.verticalLayout_8.addWidget(self.textEdit_9)
+        self.verticalLayout_8.addWidget(self.TEGlubina)
 
-        self.lineEdit_5 = QLineEdit(self.layoutWidget3)
-        self.lineEdit_5.setObjectName(u"lineEdit_5")
-        self.lineEdit_5.setMinimumSize(QSize(200, 0))
-        self.lineEdit_5.setMaximumSize(QSize(200, 16777215))
+        self.LEGlubina = QLineEdit(self.layoutWidget3)
+        self.LEGlubina.setObjectName(u"lineEdit_5_Glubina")
+        self.LEGlubina.setMinimumSize(QSize(200, 0))
+        self.LEGlubina.setMaximumSize(QSize(200, 16777215))
 
-        self.verticalLayout_8.addWidget(self.lineEdit_5)
+        self.verticalLayout_8.addWidget(self.LEGlubina)
 
 
         self.horizontalLayout_2.addLayout(self.verticalLayout_8)
 
-        self.pushButton = QPushButton(self.layoutWidget3)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setMinimumSize(QSize(70, 59))
-        self.pushButton.setMaximumSize(QSize(300, 16777215))
+        self.PBRaschet = QPushButton(self.layoutWidget3)
+        self.PBRaschet.setObjectName(u"PBRaschet")
+        self.PBRaschet.setMinimumSize(QSize(70, 59))
+        self.PBRaschet.setMaximumSize(QSize(300, 16777215))
 
-        self.horizontalLayout_2.addWidget(self.pushButton)
+        self.horizontalLayout_2.addWidget(self.PBRaschet)
 
         self.tableView = QTableView(self.centralwidget)
         self.tableView.setObjectName(u"tableView")
@@ -223,85 +223,53 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.textEdit_4.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\u041d\u0430\u0438\u043c\u0435\u043d\u043e\u0432\u0430\u043d\u0438\u0435</p></body></html>", None))
+        self.TENaimenovanie.setHtml(QCoreApplication.translate("MainWindow", u"Наименование детали", None))
 #if QT_CONFIG(tooltip)
-        self.lineEdit_1.setToolTip("")
+        self.LENaimenovanie.setToolTip("")
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(statustip)
-        self.lineEdit_1.setStatusTip("")
+        self.LENaimenovanie.setStatusTip("")
 #endif // QT_CONFIG(statustip)
 #if QT_CONFIG(whatsthis)
-        self.lineEdit_1.setWhatsThis("")
+        self.LENaimenovanie.setWhatsThis("")
 #endif // QT_CONFIG(whatsthis)
 #if QT_CONFIG(accessibility)
-        self.lineEdit_1.setAccessibleName("")
+        self.LENaimenovanie.setAccessibleName("")
 #endif // QT_CONFIG(accessibility)
-        self.lineEdit_1.setInputMask("")
-        self.lineEdit_1.setText("")
-        self.lineEdit_1.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043d\u0430\u0438\u043c\u0435\u043d\u043e\u0432\u0430\u043d\u0438\u0435 \u0434\u0435\u0442\u0430\u043b\u0438", None))
-        self.textEdit_5.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\u0410\u0440\u0442\u0438\u043a\u0443\u043b</p></body></html>", None))
-        self.lineEdit_2.setInputMask("")
-        self.lineEdit_2.setText("")
-        self.lineEdit_2.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0414\u0435\u0446\u0438\u043c\u0430\u043b\u044c\u043d\u044b\u0439 \u2116", None))
-        self.textEdit_6.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\u0420\u0430\u0437\u043c\u0435\u0440 \u043f\u0430\u0440\u0442\u0438\u0438</p></body></html>", None))
-        self.lineEdit_3.setInputMask("")
-        self.lineEdit_3.setText("")
-        self.lineEdit_3.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u041a\u043e\u043b-\u0432\u043e, \u0448\u0442.", None))
-        self.textEdit.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\u0422\u0440\u0443\u0434\u043e\u0451\u043c\u043a\u043e\u0441\u0442\u044c</p></body></html>", None))
-        self.lineEdit_6.setInputMask("")
-        self.lineEdit_6.setText("")
-        self.lineEdit_6.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u043d/\u0447", None))
-        self.textEdit_2.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\u0421\u0435\u0431\u0435\u0441\u0442\u043e\u0438\u043c\u043e\u0441\u0442\u044c</p></body></html>", None))
-        self.lineEdit_7.setInputMask("")
-        self.lineEdit_7.setText("")
-        self.lineEdit_7.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0440\u0443\u0431.", None))
-        self.textEdit_3.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\u0421\u0440\u043e\u043a \u0438\u0437\u0433\u043e\u0442\u043e\u0432\u043b\u043d\u0435\u043d\u0438\u044f \u043f\u0430\u0440\u0442\u0438\u0438</p></body></html>", None))
-        self.lineEdit_8.setText("")
-        self.lineEdit_8.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0434\u043d\u0435\u0439", None))
-        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0440\u0430\u0441\u0447\u0435\u0442", None))
-        self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u0437\u0430\u043f\u0438\u0441\u044c", None))
-        self.textEdit_7.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\u041f\u043b\u043e\u0449\u0430\u0434\u044c \u043e\u0431\u0440\u0430\u0431\u043e\u0442\u043a\u0438, \u043c\u043c2</p></body></html>", None))
-        self.lineEdit_4.setInputMask("")
-        self.lineEdit_4.setText("")
-        self.lineEdit_4.setPlaceholderText(QCoreApplication.translate("MainWindow", u"mm2", None))
-        self.textEdit_9.setMarkdown(QCoreApplication.translate("MainWindow", u"\u0413\u043b\u0443\u0431\u0438\u043d\u0430 \u043e\u0431\u0440\u0430\u0431\u043e\u0442\u043a\u0438, \u043c\u043c\n"
+        self.LENaimenovanie.setInputMask("")
+        self.LENaimenovanie.setText("")
+        self.LENaimenovanie.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043d\u0430\u0438\u043c\u0435\u043d\u043e\u0432\u0430\u043d\u0438\u0435 \u0434\u0435\u0442\u0430\u043b\u0438", None))
+        self.TEArticul.setHtml(QCoreApplication.translate("MainWindow", u"Децимальный №", None))
+        self.LEArticul.setInputMask("")
+        self.LEArticul.setText("")
+        self.LEArticul.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Введите децимальный №", None))
+        self.TEKolichestvo.setHtml(QCoreApplication.translate("MainWindow", u"Объем партии, шт.", None))
+        self.LEKolichestvo.setInputMask("")
+        self.LEKolichestvo.setText("")
+        self.LEKolichestvo.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u041a\u043e\u043b-\u0432\u043e, \u0448\u0442.", None))
+        self.TETrudoemkost.setHtml(QCoreApplication.translate("MainWindow", u"Трудоемкость, н/ч", None))
+        self.LETrudoemkost.setInputMask("")
+        self.LETrudoemkost.setText("")
+        self.LETrudoemkost.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u043d/\u0447", None))
+        self.TESebestoimost.setHtml(QCoreApplication.translate("MainWindow", u"Себестоимость детали, руб. с НДС", None))
+        self.LESebestoimost.setInputMask("")
+        self.LESebestoimost.setText("")
+        self.LESebestoimost.setPlaceholderText(QCoreApplication.translate("MainWindow", u"руб. с НДС", None))
+        self.TEVremyapartii.setHtml(QCoreApplication.translate("MainWindow", u"Срок изготовления партии, часов", None))
+        self.LEVremyapartii.setText("")
+        self.LEVremyapartii.setPlaceholderText(QCoreApplication.translate("MainWindow", u"часов", None))
+        self.PBSaved.setText(QCoreApplication.translate("MainWindow", u"Сохранить расчет в Реестр", None))
+        self.PBMoved.setText(QCoreApplication.translate("MainWindow", u"Удалить расчет из Реестра", None))
+        self.TEPloshad.setHtml(QCoreApplication.translate("MainWindow", u"Площадь обрабатываемой поверхности, мм2", None))
+        self.LEPloshad.setInputMask("")
+        self.LEPloshad.setText("")
+        self.LEPloshad.setPlaceholderText(QCoreApplication.translate("MainWindow", u"mm2", None))
+        self.TEGlubina.setMarkdown(QCoreApplication.translate("MainWindow", u"\u0413\u043b\u0443\u0431\u0438\u043d\u0430 \u043e\u0431\u0440\u0430\u0431\u043e\u0442\u043a\u0438, \u043c\u043c\n"
 "\n"
 "", None))
-        self.textEdit_9.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\u0413\u043b\u0443\u0431\u0438\u043d\u0430 \u043e\u0431\u0440\u0430\u0431\u043e\u0442\u043a\u0438, \u043c\u043c</p></body></html>", None))
-        self.lineEdit_5.setText("")
-        self.lineEdit_5.setPlaceholderText(QCoreApplication.translate("MainWindow", u"mm", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0430\u0441\u0447\u0438\u0442\u0430\u0442\u044c", None))
+        self.TEGlubina.setHtml(QCoreApplication.translate("MainWindow", u"Глубина обрабатываемой поверхности, мм", None))
+        self.LEGlubina.setText("")
+        self.LEGlubina.setPlaceholderText(QCoreApplication.translate("MainWindow", u"mm", None))
+        self.PBRaschet.setText(QCoreApplication.translate("MainWindow", u"Расчитать!", None))
     # retranslateUi
 

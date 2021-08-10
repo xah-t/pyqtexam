@@ -15,25 +15,25 @@ class KalkuWindow(QtWidgets.QMainWindow):
         #self.ui.lineEdit_8.setHidden(True)
 
         self.initSqlModel()
-        self.ui.pushButton_2.clicked.connect(self.onPBSaveclicked)
-        self.ui.pushButton.clicked.connect(self.onPBRaschetclicked)
-        self.ui.pushButton_3.clicked.connect(self.onPBMoveclicked)
+        self.ui.PBSaved.clicked.connect(self.onPBSaveclicked)
+        self.ui.PBRaschet.clicked.connect(self.onPBRaschetclicked)
+        self.ui.PBMoved.clicked.connect(self.onPBMoveclicked)
         self.mykalkul.signalTrudoemkost.connect(self.setLineEditTrudoemkost, QtCore.Qt.QueuedConnection)
         self.mykalkul.signalSebestoimost.connect(self.setLineEditSebestoimost, QtCore.Qt.QueuedConnection)
         self.mykalkul.signalVremyapartii.connect(self.setLineEditVremyaPartii, QtCore.Qt.QueuedConnection)
 
     def setLineEditTrudoemkost(self, text):
-        self.ui.lineEdit_6.setText(text)
+        self.ui.LETrudoemkost.setText(text)
 
     def setLineEditSebestoimost(self, text):
-        self.ui.lineEdit_7.setText(text)
+        self.ui.LESebestoimost.setText(text)
 
     def setLineEditVremyaPartii(self, text):
-        self.ui.lineEdit_8.setText(text)
+        self.ui.LEVremyapartii.setText(text)
 
     def initSqlModel(self):
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
-        self.db.setDatabaseName('C:/Users/nva10/Downloads/fieldlist_var2.db') #  C:/Users/nva10/Downloads/fieldlist_var2.db
+        self.db.setDatabaseName('C:/Users/nva10/Downloads/fieldlist_var2.db')  # C:/Users/nva10/Downloads/fieldlist_var2.db
         self.model = QtSql.QSqlTableModel()
         self.model.setTable('fieldlist')
 
@@ -45,33 +45,33 @@ class KalkuWindow(QtWidgets.QMainWindow):
         self.model.setHeaderData(3, QtCore.Qt.Horizontal, "Площадь, мм2")
         self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Глубина, мм")
         self.model.setHeaderData(5, QtCore.Qt.Horizontal, "Трудоемкость, н/ч")
-        self.model.setHeaderData(6, QtCore.Qt.Horizontal, "Стоимость, руб. с НДС") # заменить на стоимость изделия(сложить трудоемкость и материал)
-        self.model.setHeaderData(7, QtCore.Qt.Horizontal, "Срок изготовления, час")
+        self.model.setHeaderData(6, QtCore.Qt.Horizontal, "Стоимость, руб. с НДС")  # заменить на стоимость изделия(сложить трудоемкость и материал)
+        self.model.setHeaderData(7, QtCore.Qt.Horizontal, "Срок изготовления, час")  # не отображается в окне
 
         self.ui.tableView.setModel(self.model)
         self.ui.tableView.setColumnHidden(0, True)  # скрытие столбцов
         self.ui.tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
 
     def onPBRaschetclicked(self):
-        self.mykalkul.setParameters(self.ui.lineEdit_1.text(),
-                                    self.ui.lineEdit_2.text(),
-                                    self.ui.lineEdit_3.text(),
-                                    self.ui.lineEdit_4.text(),
-                                    self.ui.lineEdit_5.text())
+        self.mykalkul.setParameters(self.ui.LENaimenovanie.text(),
+                                    self.ui.LEArticul.text(),
+                                    self.ui.LEKolichestvo.text(),
+                                    self.ui.LEPloshad.text(),
+                                    self.ui.LEGlubina.text())
         self.mykalkul.start()
         print('onPBRaschetclicked')
 
     def onPBSaveclicked(self):
         index = self.model.rowCount()
         self.model.insertRows(index, 1)
-        self.model.setData(self.model.index(index, 1), self.ui.lineEdit_1.text())
-        self.model.setData(self.model.index(index, 2), self.ui.lineEdit_2.text())
+        self.model.setData(self.model.index(index, 1), self.ui.LENaimenovanie.text())
+        self.model.setData(self.model.index(index, 2), self.ui.LEArticul.text())
         #self.model.setData(self.model.index(index, 3), self.ui.lineEdit_3.text())
-        self.model.setData(self.model.index(index, 3), self.ui.lineEdit_4.text())
-        self.model.setData(self.model.index(index, 4), self.ui.lineEdit_5.text())
-        self.model.setData(self.model.index(index, 5), self.ui.lineEdit_6.text())
-        self.model.setData(self.model.index(index, 6), self.ui.lineEdit_7.text())
-        self.model.setData(self.model.index(index, 7), self.ui.lineEdit_8.text())
+        self.model.setData(self.model.index(index, 3), self.ui.LEPloshad.text())
+        self.model.setData(self.model.index(index, 4), self.ui.LEGlubina.text())
+        self.model.setData(self.model.index(index, 5), self.ui.LETrudoemkost.text())
+        self.model.setData(self.model.index(index, 6), self.ui.LESebestoimost.text())
+        self.model.setData(self.model.index(index, 7), self.ui.LEVremyapartii.text())
         self.model.submitAll()
 
         print('onPBSaveclicked')
@@ -133,10 +133,10 @@ class MyKalkul(QtCore.QThread):
         print(self.kolichestvo)
         print(self.ploshad)
         print(self.glubina)
-        skorost = int(self.ploshad) * 1.8 # 1.8 - стандартное время обработки 1мм2
-        skorostsloev = int(self.glubina) * skorost # кол-во слоев * Nмм2/сек
-        resultTrud = skorostsloev / 3600 # трудоемкость = площадь обработки*кол-во секунт / 3600(перевод в н/ч)
-        resultSebest = resultTrud * 2350 # в дальнейшем - вписать ссылку на lineEdit с ценой нормочаса
+        skorost = int(self.ploshad) * 1.8  # 1.8 - стандартное время обработки 1мм2
+        skorostsloev = int(self.glubina) * skorost  # кол-во слоев * Nмм2/сек
+        resultTrud = skorostsloev / 3600  # трудоемкость = площадь обработки*кол-во секунт / 3600(перевод в н/ч)
+        resultSebest = resultTrud * 2350  # в дальнейшем - вписать ссылку на lineEdit с ценой нормочаса
         vremyapartii = skorostsloev * int(self.kolichestvo) / 3600
         print(f"Трудоёмкость {resultTrud}")
         print(f"Себестоимость {resultSebest}")
@@ -146,10 +146,10 @@ class MyKalkul(QtCore.QThread):
         self.signalSebestoimost.emit(str(resultSebest))
         self.signalVremyapartii.emit(str(vremyapartii))
 
-"""
+
 """
 #Пример создания дочернего окна из основной формы
-"""
+
 
 import sys
  
