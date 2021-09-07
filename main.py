@@ -1,6 +1,7 @@
 import sys
 from PySide2 import QtWidgets, QtCore, QtGui, QtSql
 import kalku
+import kalkulation
 
 
 class KalkuWindow(QtWidgets.QMainWindow):
@@ -8,7 +9,7 @@ class KalkuWindow(QtWidgets.QMainWindow):
         print('init')
         QtWidgets.QMainWindow.__init__(self, parent)
         self.mykalkul = MyKalkul()
-        self.ui = kalku.Ui_MainWindow()
+        self.ui = kalkulation.Ui_MainWindow()  # kalku
         self.ui.setupUi(self)
         #self.ui.lineEdit_6.setHidden(True)
         #self.ui.lineEdit_7.setHidden(True)
@@ -31,22 +32,25 @@ class KalkuWindow(QtWidgets.QMainWindow):
     def setLineEditVremyaPartii(self, text):
         self.ui.LEVremyapartii.setText(text)
 
+    def setLineEditPloshad(self, text):
+        self.ui.LEPloshad.setText(text)  # lineEdit_4
+
     def initSqlModel(self):
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
-        self.db.setDatabaseName('C:/Users/nva10/Downloads/fieldlist_var2.db')  # C:/Users/nva10/Downloads/fieldlist_var2.db
+        self.db.setDatabaseName('C:/python/VKR/pyqtexam/fieldlist_var2.db')  # C:/Users/nva10/Downloads/fieldlist_var2.db
         self.model = QtSql.QSqlTableModel()
-        self.model.setTable('fieldlist')
+        self.model.setTable('fieldlist')  # название таблицы, а не БД
 
         self.model.select()  # подключение БД
         # инициализация БД(создание)
         self.model.setHeaderData(0, QtCore.Qt.Horizontal, "ID")
-        self.model.setHeaderData(1, QtCore.Qt.Horizontal, "Наименование")
-        self.model.setHeaderData(2, QtCore.Qt.Horizontal, "Децимальный №")
-        self.model.setHeaderData(3, QtCore.Qt.Horizontal, "Площадь, мм2")
-        self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Глубина, мм")
-        self.model.setHeaderData(5, QtCore.Qt.Horizontal, "Трудоемкость, н/ч")
-        self.model.setHeaderData(6, QtCore.Qt.Horizontal, "Стоимость, руб. с НДС")  # заменить на стоимость изделия(сложить трудоемкость и материал)
-        self.model.setHeaderData(7, QtCore.Qt.Horizontal, "Срок изготовления, час")  # не отображается в окне
+        self.model.setHeaderData(1, QtCore.Qt.Horizontal, "Децимальный №")
+        self.model.setHeaderData(2, QtCore.Qt.Horizontal, "Наименование")
+        self.model.setHeaderData(3, QtCore.Qt.Horizontal, "Материал")
+        self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Норма расхода материала, кг")
+        self.model.setHeaderData(5, QtCore.Qt.Horizontal, "Площадь поверхности, мм2")
+        self.model.setHeaderData(6, QtCore.Qt.Horizontal, "Глубина обработки, мм")  # заменить на стоимость изделия(сложить трудоемкость и материал)
+        self.model.setHeaderData(7, QtCore.Qt.Horizontal, "Срок изготовления, час")
 
         self.ui.tableView.setModel(self.model)
         self.ui.tableView.setColumnHidden(0, True)  # скрытие столбцов
@@ -64,11 +68,10 @@ class KalkuWindow(QtWidgets.QMainWindow):
     def onPBSaveclicked(self):
         index = self.model.rowCount()
         self.model.insertRows(index, 1)
-        self.model.setData(self.model.index(index, 1), self.ui.LENaimenovanie.text())
-        self.model.setData(self.model.index(index, 2), self.ui.LEArticul.text())
-        #self.model.setData(self.model.index(index, 3), self.ui.lineEdit_3.text())
-        self.model.setData(self.model.index(index, 3), self.ui.LEPloshad.text())
-        self.model.setData(self.model.index(index, 4), self.ui.LEGlubina.text())
+        self.model.setData(self.model.index(index, 1), self.ui.LEArticul.text())
+        self.model.setData(self.model.index(index, 2), self.ui.LENaimenovanie.text())
+        self.model.setData(self.model.index(index, 3), self.ui.LEPloshad.text())  # LEMaterial
+        self.model.setData(self.model.index(index, 4), self.ui.LEGlubina.text())  # LEMaterial_rate
         self.model.setData(self.model.index(index, 5), self.ui.LETrudoemkost.text())
         self.model.setData(self.model.index(index, 6), self.ui.LESebestoimost.text())
         self.model.setData(self.model.index(index, 7), self.ui.LEVremyapartii.text())
@@ -90,9 +93,6 @@ class KalkuWindow(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.about(self, 'Message', 'Выберите строку')
         print("onPBMoveClicked")
 
-    def setLineEdit_4Text(self, text):
-        self.lineEdit_4.setText(text)
-
     def closeEvent(self, event: QtCore.QEvent.Close):
         reply = QtWidgets.QMessageBox.question(self, "Выход", "Вы действительно хотите выйти?")
         print(reply)
@@ -102,7 +102,6 @@ class KalkuWindow(QtWidgets.QMainWindow):
         elif reply == QtWidgets.QMessageBox.No:
             event.ignore()
             print('Window not closed')
-
 
     def event(self, event: QtCore.QEvent) -> bool:
         #print(event.type())
@@ -128,6 +127,7 @@ class MyKalkul(QtCore.QThread):
         self.glubina = glubina
 
     def run(self):
+        print("Run !")
         print(self.naimenovanie)
         print(self.artikul)
         print(self.kolichestvo)
