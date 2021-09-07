@@ -1,15 +1,16 @@
 import sys
 from PySide2 import QtWidgets, QtCore, QtGui, QtSql
-import kalku
-import kalkulation
+#import kalku
+import kalkulation_window
+import kalkulation_core
 
 
-class KalkuWindow(QtWidgets.QMainWindow):
+class KalkulationWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         print('init')
         QtWidgets.QMainWindow.__init__(self, parent)
-        self.mykalkul = MyKalkul()
-        self.ui = kalkulation.Ui_MainWindow()  # kalku
+        self.mykalkul = kalkulation_core.MyKalkulationCore()
+        self.ui = kalkulation_window.Ui_MainWindow()  # kalku
         self.ui.setupUi(self)
         #self.ui.lineEdit_6.setHidden(True)
         #self.ui.lineEdit_7.setHidden(True)
@@ -19,6 +20,7 @@ class KalkuWindow(QtWidgets.QMainWindow):
         self.ui.PBSaved.clicked.connect(self.onPBSaveclicked)
         self.ui.PBRaschet.clicked.connect(self.onPBRaschetclicked)
         self.ui.PBMoved.clicked.connect(self.onPBMoveclicked)
+        self.ui.PBExtract.clicked.connect(self.onPBExtractclicked)
         self.mykalkul.signalTrudoemkost.connect(self.setLineEditTrudoemkost, QtCore.Qt.QueuedConnection)
         self.mykalkul.signalSebestoimost.connect(self.setLineEditSebestoimost, QtCore.Qt.QueuedConnection)
         self.mykalkul.signalVremyapartii.connect(self.setLineEditVremyaPartii, QtCore.Qt.QueuedConnection)
@@ -32,8 +34,8 @@ class KalkuWindow(QtWidgets.QMainWindow):
     def setLineEditVremyaPartii(self, text):
         self.ui.LEVremyapartii.setText(text)
 
-    def setLineEditPloshad(self, text):
-        self.ui.LEPloshad.setText(text)  # lineEdit_4
+    # def setLineEditPloshad(self, text):
+    #     self.ui.LEPloshad.setText(text)  # lineEdit_4
 
     def initSqlModel(self):
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
@@ -55,7 +57,7 @@ class KalkuWindow(QtWidgets.QMainWindow):
         self.model.setHeaderData(5, QtCore.Qt.Horizontal, "Трудоемкость, н/ч")
         self.model.setHeaderData(6, QtCore.Qt.Horizontal, "Себестоимость, руб. с НДС")
         self.model1.select()
-        self.model1.setHeaderData(4, QtCore.Qt.Horizontal, "Время изготовления партии, дней")
+        self.model1.setHeaderData(4, QtCore.Qt.Horizontal, "Время изготовления партии, часов")  # перевести в дни
 
         self.ui.tableView.setModel(self.model)
         self.ui.tableView.setColumnHidden(0, True)  # скрытие столбцов
@@ -96,6 +98,10 @@ class KalkuWindow(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.about(self, 'Message', 'Выберите строку')
         print("onPBMoveClicked")
 
+    def onPBExtractclicked(self):
+
+        print("onPBExtractclicked")
+
     def closeEvent(self, event: QtCore.QEvent.Close):
         reply = QtWidgets.QMessageBox.question(self, "Выход", "Вы действительно хотите выйти?")
         print(reply)
@@ -111,43 +117,6 @@ class KalkuWindow(QtWidgets.QMainWindow):
         if event.type() == QtCore.QEvent.Type.Close:
             event.setAccepted(False)
         return QtWidgets.QMainWindow.event(self, event)
-
-
-class MyKalkul(QtCore.QThread):
-    signalTrudoemkost = QtCore.Signal(str)
-    signalSebestoimost = QtCore.Signal(str)
-    signalVremyapartii = QtCore.Signal(str)
-
-    def __init__(self, parent=None):
-        super(MyKalkul, self).__init__(parent)
-
-    def setParameters(self, naimenovanie, artikul, kolichestvo, ploshad, glubina):
-
-        self.naimenovanie = naimenovanie
-        self.artikul = artikul
-        self.kolichestvo = kolichestvo
-        self.ploshad = ploshad
-        self.glubina = glubina
-
-    def run(self):
-        print("Run !")
-        print(self.naimenovanie)
-        print(self.artikul)
-        print(self.kolichestvo)
-        print(self.ploshad)
-        print(self.glubina)
-        skorost = int(self.ploshad) * 1.8  # 1.8 - стандартное время обработки 1мм2
-        skorostsloev = int(self.glubina) * skorost  # кол-во слоев * Nмм2/сек
-        resultTrud = skorostsloev / 3600  # трудоемкость = площадь обработки*кол-во секунт / 3600(перевод в н/ч)
-        resultSebest = resultTrud * 2350  # в дальнейшем - вписать ссылку на lineEdit с ценой нормочаса
-        vremyapartii = skorostsloev * int(self.kolichestvo) / 3600
-        print(f"Трудоёмкость {resultTrud}")
-        print(f"Себестоимость {resultSebest}")
-        print(f"Время обработки партии {vremyapartii} часов")
-
-        self.signalTrudoemkost.emit(str(resultTrud))
-        self.signalSebestoimost.emit(str(resultSebest))
-        self.signalVremyapartii.emit(str(vremyapartii))
 
 
 """
@@ -212,6 +181,6 @@ if __name__ == "__main__":
 if __name__ == '__main__':
 
     app = QtWidgets.QApplication()
-    widget = KalkuWindow()
+    widget = KalkulationWindow()
     widget.show()
     app.exec_()
