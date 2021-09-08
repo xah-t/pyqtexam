@@ -10,7 +10,6 @@ class MyKalkulationCore(QtCore.QThread):
         super(MyKalkulationCore, self).__init__(parent)
 
     def setParameters(self, naimenovanie, artikul, kolichestvo, ploshad, glubina):
-
         self.naimenovanie = naimenovanie
         self.artikul = artikul
         self.kolichestvo = kolichestvo

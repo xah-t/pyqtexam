@@ -99,7 +99,6 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         print("onPBMoveClicked")
 
     def onPBExtractclicked(self):
-
         print("onPBExtractclicked")
 
     def closeEvent(self, event: QtCore.QEvent.Close):
