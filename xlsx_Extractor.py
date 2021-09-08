@@ -25,7 +25,7 @@ worksheet.write('E1', 'Срок изготовления партии,  дней
 
 row = 1
 col = 0
-for articul, naimenovanie, trudoemkost, sebestoimost, vremyapartii in (expenses):
+for articul, naimenovanie, trudoemkost, sebestoimost, vremyapartii in (fieldlist):
     worksheet.write(row, col, articul)
     worksheet.write(row, col + 1, naimenovanie)
     worksheet.write(row, col + 2, trudoemkost)
