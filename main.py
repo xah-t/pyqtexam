@@ -3,6 +3,7 @@ from PySide2 import QtWidgets, QtCore, QtGui, QtSql
 #import kalku
 import kalkulation_window
 import kalkulation_core
+from xlsx_Extractor import Extractor
 
 
 class KalkulationWindow(QtWidgets.QMainWindow):
@@ -99,6 +100,10 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         print("onPBMoveClicked")
 
     def onPBExtractclicked(self):
+        new_reestr = Extractor()
+        new_reestr.init_tables()
+        new_reestr.close()  # разобраться с выгрузкой файла, сразу при нажатии кнопки.
+        new_reestr.show()
         print("onPBExtractclicked")
 
     def closeEvent(self, event: QtCore.QEvent.Close):
