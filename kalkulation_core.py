@@ -15,7 +15,7 @@ class MyKalkulationCore(QtCore.QThread):
         self.kolichestvo = kolichestvo
         self.ploshad = ploshad
         self.glubina = glubina
-
+        """Добавить параметры материала и """
     def run(self):
         print("Run !")
         print(self.naimenovanie)

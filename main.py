@@ -7,6 +7,7 @@ from xlsx_Extractor import Extractor
 
 
 class KalkulationWindow(QtWidgets.QMainWindow):
+
     def __init__(self, parent=None):
         print('init')
         QtWidgets.QMainWindow.__init__(self, parent)
@@ -40,11 +41,11 @@ class KalkulationWindow(QtWidgets.QMainWindow):
 
     def initSqlModel(self):
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
-        self.db.setDatabaseName('C:/python/VKR/pyqtexam/fieldlist_var2.db')  # C:/Users/nva10/Downloads/fieldlist_var2.db
+        self.db.setDatabaseName('C:/python/VKR/pyqtexam/fieldlist_var2.db')
         self.model = QtSql.QSqlTableModel()
         self.model.setTable('fieldlist')  # название таблицы, а не БД
-        self.model1 = QtSql.QSqlTableModel()
-        self.model1.setTable('work_cost')  # название таблицы, а не БД
+        #self.model1 = QtSql.QSqlTableModel()
+        #self.model1.setTable('work_cost')  # название таблицы, а не БД
 
         self.model.select()  # подключение БД
         # инициализация БД(создание)
@@ -57,12 +58,13 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Глубина обработки, мм")  # заменить на стоимость изделия(сложить трудоемкость и материал)
         self.model.setHeaderData(5, QtCore.Qt.Horizontal, "Трудоемкость, н/ч")
         self.model.setHeaderData(6, QtCore.Qt.Horizontal, "Себестоимость, руб. с НДС")
-        self.model1.select()
-        self.model1.setHeaderData(4, QtCore.Qt.Horizontal, "Время изготовления партии, часов")  # перевести в дни
+        #self.model1.select()
+        #self.model1.setHeaderData(4, QtCore.Qt.Horizontal, "Время изготовления партии, часов")  # перевести в дни
 
         self.ui.tableView.setModel(self.model)
         self.ui.tableView.setColumnHidden(0, True)  # скрытие столбцов
         self.ui.tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        """Вставить данные из таблиц work_cost и material_cost"""
 
     def onPBRaschetclicked(self):
         self.mykalkul.setParameters(self.ui.LENaimenovanie.text(),
@@ -72,6 +74,8 @@ class KalkulationWindow(QtWidgets.QMainWindow):
                                     self.ui.LEGlubina.text())
         self.mykalkul.start()
         print('onPBRaschetclicked')
+        """Привязать к таблице с ценами на материал
+        добавить параметры, """
 
     def onPBSaveclicked(self):
         index = self.model.rowCount()
@@ -82,10 +86,10 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.model.setData(self.model.index(index, 4), self.ui.LEGlubina.text())  # LEMaterialrate
         self.model.setData(self.model.index(index, 5), self.ui.LETrudoemkost.text())
         self.model.setData(self.model.index(index, 6), self.ui.LESebestoimost.text())
-        self.model1.setData(self.model1.index(index, 4), self.ui.LEVremyapartii.text())   # заменить на столбец из таблицы work_cost
+        #self.model1.setData(self.model1.index(index, 4), self.ui.LEVremyapartii.text())   # заменить на столбец из таблицы work_cost
         self.model.submitAll()
-
         print('onPBSaveclicked')
+        """Добавить сохранение в данных в таблицу work_cost"""
 
     def onPBMoveclicked(self):
         if self.ui.tableView.currentIndex().row() > -1:
@@ -98,6 +102,7 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         else:
             QtWidgets.QMessageBox.about(self, 'Message', 'Выберите строку')
         print("onPBMoveClicked")
+        """Add update tableView"""
 
     def onPBExtractclicked(self):
         new_reestr = Extractor()
@@ -105,6 +110,7 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         new_reestr.close()  # разобраться с выгрузкой файла, сразу при нажатии кнопки.
         new_reestr.show()
         print("onPBExtractclicked")
+        """При внесении изменений пользователем в файле - какой сохранится вариант файла"""
 
     def closeEvent(self, event: QtCore.QEvent.Close):
         reply = QtWidgets.QMessageBox.question(self, "Выход", "Вы действительно хотите выйти?")
@@ -117,70 +123,10 @@ class KalkulationWindow(QtWidgets.QMainWindow):
             print('Window not closed')
 
     def event(self, event: QtCore.QEvent) -> bool:
-        #print(event.type())
         if event.type() == QtCore.QEvent.Type.Close:
             event.setAccepted(False)
         return QtWidgets.QMainWindow.event(self, event)
 
-
-"""
-#Пример создания дочернего окна из основной формы
-
-
-import sys
- 
-from PyQt4 import QtGui, QtCore
- 
- 
-class SecondWindow(QtGui.QWidget):
-    def __init__(self, parent=None):
-        # Передаём ссылку на родительский элемент и чтобы виджет
-        # отображался как самостоятельное окно указываем тип окна
-        super().__init__(parent, QtCore.Qt.Window)
-        self.build()
- 
-    def build(self):
-        self.mainLayout = QtGui.QVBoxLayout()
- 
-        self.buttons = []
-        for i in range(5):
-            but = QtGui.QPushButton('button {}'.format(i), self)
-            self.mainLayout.addWidget(but)
-            self.buttons.append(but)
- 
-        self.setLayout(self.mainLayout)
- 
- 
-class MainWindow(QtGui.QWidget):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.secondWin = None
-        self.build()
- 
-    def build(self):
-        self.mainLayout = QtGui.QVBoxLayout()
- 
-        self.lab = QtGui.QLabel('simple text', self)
-        self.mainLayout.addWidget(self.lab)
- 
-        self.but1 = QtGui.QPushButton('open window', self)
-        self.but1.clicked.connect(self.openWin)
-        self.mainLayout.addWidget(self.but1)
- 
-        self.setLayout(self.mainLayout)
- 
-    def openWin(self):
-        if not self.secondWin:
-            self.secondWin = SecondWindow(self)
-        self.secondWin.show()
- 
- 
-if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())
-"""
 
 if __name__ == '__main__':
 

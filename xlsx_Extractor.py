@@ -6,6 +6,7 @@ import subprocess
 
 
 class Extractor():
+    """Класс для вывода Реестра в xlsx файл"""
 
     def init_tables(self):
         fieldlist_ = []
@@ -20,8 +21,6 @@ class Extractor():
                 fieldlist_.append(row)
             for row in cursor_work_cost_:
                 work_cost_.append(row)
-            #print(fieldlist_)
-            #print(work_cost_)
 
         # Create an new Excel file and add a worksheet.
         workbook = xlsxwriter.Workbook('Реестр_' + str(datetime.date.today()) + '.xlsx')
@@ -57,8 +56,9 @@ class Extractor():
         self.path = "C:/python/VKR/pyqtexam/Реестр_" + str(datetime.date.today()) + ".xlsx"
         subprocess.Popen(self.path, shell=True)
 
+
 if __name__ == '__main__':
     upload_ = Extractor()
     upload_.init_tables()
-    upload_.close()
+    #upload_.close()
     upload_.show()
