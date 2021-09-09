@@ -226,6 +226,7 @@ class Ui_MainWindow(object):
         self.TENaimenovanie.setHtml(QCoreApplication.translate("MainWindow", u"Наименование детали", None))
 #if QT_CONFIG(tooltip)
         self.LENaimenovanie.setToolTip("")
+
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(statustip)
         self.LENaimenovanie.setStatusTip("")
