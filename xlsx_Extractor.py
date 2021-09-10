@@ -11,7 +11,7 @@ class Extractor():
     def init_tables(self):
         fieldlist_ = []
         work_cost_ = []
-        connect_to_db = sqlite3.connect('fieldlist_var2.db')
+        connect_to_db = sqlite3.connect('fieldlist_var2.db')  # fieldlist_var2.db
         with connect_to_db:
             cursor_fieldlist_ = connect_to_db.cursor()
             cursor_fieldlist_.execute("SELECT * FROM fieldlist")  # ORDER BY id DESC LIMIT 10

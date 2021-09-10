@@ -3,6 +3,7 @@ from PySide2 import QtWidgets, QtCore, QtGui, QtSql
 #import kalku
 import kalkulation_window
 import kalkulation_core
+import temp
 from xlsx_Extractor import Extractor
 
 
@@ -41,29 +42,33 @@ class KalkulationWindow(QtWidgets.QMainWindow):
 
     def initSqlModel(self):
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
-        self.db.setDatabaseName('C:/python/VKR/pyqtexam/fieldlist_var2.db')
+        self.db.setDatabaseName('fieldlist_var2.db')  # 'fieldlist_var2.db'
         self.model = QtSql.QSqlTableModel()
-        self.model.setTable('fieldlist')  # название таблицы, а не БД
-        #self.model1 = QtSql.QSqlTableModel()
-        #self.model1.setTable('work_cost')  # название таблицы, а не БД
 
-        self.model.select()  # подключение БД
+        """ где то здесь прописать в переменную Джоин двух таблиц и ввести переменную как аргумент setTable"""
+        self.model.setTable('temp.new_df')  # название таблицы, а не БД
+        # self.model1 = QtSql.QSqlTableModel()
+        # self.model1.setTable('work_cost')  # название таблицы, а не БД
+
+        self.model.select()  # вывод данных из таблицы в tableView
         # инициализация БД(создание)
         self.model.setHeaderData(0, QtCore.Qt.Horizontal, "ID")
         self.model.setHeaderData(1, QtCore.Qt.Horizontal, "Децимальный №")
         self.model.setHeaderData(2, QtCore.Qt.Horizontal, "Наименование")
-        #self.model.setHeaderData(3, QtCore.Qt.Horizontal, "Материал")
-        #self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Норма расхода материала, кг")
+        # self.model.setHeaderData(3, QtCore.Qt.Horizontal, "Материал")
+        # self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Норма расхода материала, кг")
         self.model.setHeaderData(3, QtCore.Qt.Horizontal, "Площадь поверхности, мм2")
         self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Глубина обработки, мм")  # заменить на стоимость изделия(сложить трудоемкость и материал)
         self.model.setHeaderData(5, QtCore.Qt.Horizontal, "Трудоемкость, н/ч")
         self.model.setHeaderData(6, QtCore.Qt.Horizontal, "Себестоимость, руб. с НДС")
-        #self.model1.select()
-        #self.model1.setHeaderData(4, QtCore.Qt.Horizontal, "Время изготовления партии, часов")  # перевести в дни
+        # self.model1.select()
+        # self.model1.setHeaderData(4, QtCore.Qt.Horizontal, "Время изготовления партии, часов")  # перевести в дни
 
         self.ui.tableView.setModel(self.model)
+        # self.ui.tableView.setModel(self.model1)
         self.ui.tableView.setColumnHidden(0, True)  # скрытие столбцов
-        self.ui.tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        self.ui.tableView.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.ui.tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         """Вставить данные из таблиц work_cost и material_cost"""
 
     def onPBRaschetclicked(self):
@@ -74,8 +79,7 @@ class KalkulationWindow(QtWidgets.QMainWindow):
                                     self.ui.LEGlubina.text())
         self.mykalkul.start()
         print('onPBRaschetclicked')
-        """Привязать к таблице с ценами на материал
-        добавить параметры, """
+        """Привязать к таблице с ценами на материал добавить параметры, """
 
     def onPBSaveclicked(self):
         index = self.model.rowCount()
@@ -99,10 +103,11 @@ class KalkulationWindow(QtWidgets.QMainWindow):
                 index_list.append(index)
             for index in index_list:
                  self.model.removeRow(index.row())
+            self.model.select()  # update tableView
         else:
             QtWidgets.QMessageBox.about(self, 'Message', 'Выберите строку')
         print("onPBMoveClicked")
-        """Add update tableView"""
+
 
     def onPBExtractclicked(self):
         new_reestr = Extractor()
