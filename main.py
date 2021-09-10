@@ -3,7 +3,7 @@ from PySide2 import QtWidgets, QtCore, QtGui, QtSql
 #import kalku
 import kalkulation_window
 import kalkulation_core
-import temp
+#import temp
 from xlsx_Extractor import Extractor
 
 
@@ -46,7 +46,7 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.model = QtSql.QSqlTableModel()
 
         """ где то здесь прописать в переменную Джоин двух таблиц и ввести переменную как аргумент setTable"""
-        self.model.setTable('temp.new_df')  # название таблицы, а не БД
+        self.model.setTable('fieldlist')  # название таблицы fieldlist, а не БД
         # self.model1 = QtSql.QSqlTableModel()
         # self.model1.setTable('work_cost')  # название таблицы, а не БД
 
