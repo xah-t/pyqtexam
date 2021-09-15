@@ -38,6 +38,9 @@ class KalkulationWindow(QtWidgets.QMainWindow):
     def setLineEditVremyaPartii(self, text):
         self.ui.LEVremyapartii.setText(text)
 
+    def setLineEditMaterial(self, text):
+        self.ui.LEMaterial.setText(text)
+
     # def setLineEditPloshad(self, text):
     #     self.ui.LEPloshad.setText(text)  # lineEdit_4
 
@@ -77,7 +80,9 @@ class KalkulationWindow(QtWidgets.QMainWindow):
                                     self.ui.LEArticul.text(),
                                     self.ui.LEKolichestvo.text(),
                                     self.ui.LEPloshad.text(),
-                                    self.ui.LEGlubina.text())
+                                    self.ui.LEGlubina.text(),
+                                    self.ui.LEMaterial.text(),
+                                    self.ui.LEMaterialrate.text())
         self.mykalkul.start()
         print('onPBRaschetclicked')
         """Привязать к таблице с ценами на материал добавить параметры, """

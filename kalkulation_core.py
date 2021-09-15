@@ -9,12 +9,14 @@ class MyKalkulationCore(QtCore.QThread):
     def __init__(self, parent=None):
         super(MyKalkulationCore, self).__init__(parent)
 
-    def setParameters(self, naimenovanie, artikul, kolichestvo, ploshad, glubina):
+    def setParameters(self, naimenovanie, artikul, kolichestvo, area_mm2, deep_mm, material, material_rate):
         self.naimenovanie = naimenovanie
         self.artikul = artikul
         self.kolichestvo = kolichestvo
-        self.ploshad = ploshad
-        self.glubina = glubina
+        self.ploshad = area_mm2
+        self.glubina = deep_mm
+        self.material = material
+        self.material_rate = material_rate
         """Добавить параметры материала и """
     def run(self):
         print("Run !")
@@ -23,10 +25,16 @@ class MyKalkulationCore(QtCore.QThread):
         print(self.kolichestvo)
         print(self.ploshad)
         print(self.glubina)
+        print(self.material)
+        print(self.material_rate)
         skorost = int(self.ploshad) * 1.8  # 1.8 - стандартное время обработки 1мм2
         skorostsloev = int(self.glubina) * skorost  # кол-во слоев * Nмм2/сек
         resultTrud = round(skorostsloev / 3600, 3)  # трудоемкость = площадь обработки*кол-во секунд / 3600(перевод в н/ч)
-        resultSebest = round(resultTrud * 2350, 2)  # в дальнейшем - вписать ссылку на lineEdit с ценой нормочаса
+        """Вставить поиск цены по сравнению столбца material_mark из БД material_cost с LEMaterial"""
+
+        materialcost = int(self.material_rate) * 655  # вставить вместо 655 (цена за кг) данные из БД material_cost через условие
+        print(f"Цена материала {materialcost}")
+        resultSebest = round(resultTrud * 2350 + materialcost, 2)  # 2350 =  цена нормочаса в руб. с НДС
         vremyapartii = skorostsloev * int(self.kolichestvo) // (3600*7.5)
         print(f"Трудоёмкость {resultTrud}")
         print(f"Себестоимость {resultSebest}")
