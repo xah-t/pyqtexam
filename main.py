@@ -4,6 +4,7 @@ from PySide2 import QtWidgets, QtCore, QtGui, QtSql
 import kalkulation_window
 import kalkulation_core
 #import temp
+#import temp
 from xlsx_Extractor import Extractor
 
 
