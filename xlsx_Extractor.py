@@ -11,16 +11,22 @@ class Extractor():
     def init_tables(self):
         fieldlist_ = []
         work_cost_ = []
+        material_cost_ = []
+        myin = 235
         connect_to_db = sqlite3.connect('fieldlist_var2.db')  # fieldlist_var2.db
         with connect_to_db:
             cursor_fieldlist_ = connect_to_db.cursor()
-            cursor_fieldlist_.execute("SELECT * FROM fieldlist")  # ORDER BY id DESC LIMIT 10
-            cursor_work_cost_ = connect_to_db.cursor()
-            cursor_work_cost_.execute("SELECT time_days FROM work_cost")
+            cursor_fieldlist_.execute("SELECT id, articul, name FROM fieldlist")  # ORDER BY id DESC LIMIT 10
             for row in cursor_fieldlist_:
                 fieldlist_.append(row)
+            cursor_work_cost_ = connect_to_db.cursor()
+            cursor_work_cost_.execute("SELECT labour, work_cost_rub FROM work_cost")
             for row in cursor_work_cost_:
                 work_cost_.append(row)
+            cursor_material_cost_ = connect_to_db.cursor()
+            cursor_material_cost_.execute("SELECT work_cost_rub + material_cost_rub*235 AS final_cost FROM work_cost, material_cost")  # прописать значение н.р. здесь как множитель material_cost, или сначала выгрузить material_cost в переменную, а потом умножить на н.р.??
+            for row in cursor_material_cost_:
+                material_cost_.append(row)
 
         # Create an new Excel file and add a worksheet.
         workbook = xlsxwriter.Workbook('Реестр_' + str(datetime.date.today()) + '.xlsx')
@@ -33,11 +39,12 @@ class Extractor():
         worksheet.write('A1', 'ID', bold)
         worksheet.write('B1', 'Децимальный №', bold)
         worksheet.write('C1', 'Наименование', bold)
-        worksheet.write('D1', 'Площадь поверхности, мм2', bold)
-        worksheet.write('E1', 'Глубина обработки, мм"', bold)
-        worksheet.write('F1', 'Трудоемкость, н/ч', bold)
-        worksheet.write('G1', 'Себестоимость, руб. с НДС', bold)
-        worksheet.write('H1', 'Срок изготовления партии,  дней', bold)  #нужно взять из другой таблицы
+        #worksheet.write('D1', 'Площадь поверхности, мм2', bold)
+        #worksheet.write('E1', 'Глубина обработки, мм"', bold)
+        worksheet.write('D1', 'Трудоемкость, н/ч', bold)
+        worksheet.write('E1', 'Стоимость работ, руб. с НДС', bold)
+        worksheet.write('F1', 'Стоимость материала, руб. с НДС', bold)
+        #worksheet.write('H1', 'Срок изготовления партии,  дней', bold)  #нужно взять из другой таблицы
 
         # Write some data.
         for num_row, row_data in enumerate(fieldlist_):  # expenses
@@ -45,7 +52,10 @@ class Extractor():
                 worksheet.write(num_row+1, num_col, col_data)
         for num_row, row_data in enumerate(work_cost_):
             for num_col, col_data in enumerate(row_data):
-                worksheet.write(num_row+1, num_col+7, col_data)
+                worksheet.write(num_row+1, num_col+3, col_data)
+        for num_row, row_data in enumerate(material_cost_):
+            for num_col, col_data in enumerate(row_data):
+                worksheet.write(num_row+1, num_col+5, col_data)
         return workbook
 
     def close(self):
