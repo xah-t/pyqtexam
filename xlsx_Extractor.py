@@ -12,7 +12,7 @@ class Extractor():
         fieldlist_ = []
         work_cost_ = []
         material_cost_ = []
-        myin = 235
+        n_r = 235
         connect_to_db = sqlite3.connect('fieldlist_var2.db')  # fieldlist_var2.db
         with connect_to_db:
             cursor_fieldlist_ = connect_to_db.cursor()

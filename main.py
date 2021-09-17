@@ -1,9 +1,7 @@
 import sys
 from PySide2 import QtWidgets, QtCore, QtGui, QtSql
-#import kalku
 import kalkulation_window
 import kalkulation_core
-#import temp
 #import temp
 from xlsx_Extractor import Extractor
 
@@ -14,7 +12,7 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         print('init')
         QtWidgets.QMainWindow.__init__(self, parent)
         self.mykalkul = kalkulation_core.MyKalkulationCore()
-        self.ui = kalkulation_window.Ui_MainWindow()  # kalku
+        self.ui = kalkulation_window.Ui_MainWindow()
         self.ui.setupUi(self)
         #self.ui.lineEdit_6.setHidden(True)
         #self.ui.lineEdit_7.setHidden(True)
