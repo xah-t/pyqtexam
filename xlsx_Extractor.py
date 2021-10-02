@@ -24,7 +24,8 @@ class Extractor():
             for row in cursor_work_cost_:
                 work_cost_.append(row)
             cursor_material_cost_ = connect_to_db.cursor()
-            cursor_material_cost_.execute("SELECT work_cost_rub + material_cost_rub*235 AS final_cost FROM work_cost, material_cost")  # прописать значение н.р. здесь как множитель material_cost, или сначала выгрузить material_cost в переменную, а потом умножить на н.р.??
+            cursor_material_cost_.execute(f"SELECT work_cost_rub + material_cost_rub * {n_r} AS final_cost FROM work_cost, material_cost")
+            # прописать значение н.р. здесь как множитель material_cost, или сначала выгрузить material_cost в переменную, а потом умножить на н.р.??
             for row in cursor_material_cost_:
                 material_cost_.append(row)
 
@@ -70,5 +71,4 @@ class Extractor():
 if __name__ == '__main__':
     upload_ = Extractor()
     upload_.init_tables()
-    #upload_.close()
     upload_.show()

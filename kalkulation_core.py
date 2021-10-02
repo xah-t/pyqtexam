@@ -32,7 +32,6 @@ class MyKalkulationCore(QtCore.QThread):
         skorostsloev = int(self.glubina) * skorost  # кол-во слоев * Nмм2/сек
         resultTrud = round(skorostsloev / 3600, 3)  # трудоемкость = площадь обработки*кол-во секунд / 3600(перевод в н/ч)
         """Вставить поиск цены по сравнению столбца material_mark из БД material_cost с LEMaterial"""
-        """перенести расчте в майн, """
         """myinput = main.KalkulationWindow.setLineEditMaterial(text)
         # print(myinput)
         matcost = connect_to_db.cursor()
@@ -43,7 +42,7 @@ class MyKalkulationCore(QtCore.QThread):
         # print(f"выбран материала" + {work_cost_} + ".")
 """
         materialcost = int(self.material_rate) * 655  # вставить вместо 655 (цена за кг) данные из БД material_cost через условие
-        print(f"Цена материала {materialcost}")
+        print(f"Стоимость материала {materialcost}")
         resultSebest = round(resultTrud * 2350 + materialcost, 2)  # 2350 =  цена нормочаса в руб. с НДС
         vremyapartii = skorostsloev * int(self.kolichestvo) // (3600*7.5)
         print(f"Трудоёмкость {resultTrud}")
