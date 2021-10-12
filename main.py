@@ -4,7 +4,7 @@ import kalkulation_window
 import kalkulation_core
 import sqlite3
 #import temp
-from xlsx_Extractor import Extractor
+from xlsx_extractor import Extractor
 
 
 class KalkulationWindow(QtWidgets.QMainWindow):
@@ -15,9 +15,9 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.mykalkul = kalkulation_core.MyKalkulationCore()
         self.ui = kalkulation_window.Ui_MainWindow()
         self.ui.setupUi(self)
-        #self.ui.lineEdit_6.setHidden(True)
-        #self.ui.lineEdit_7.setHidden(True)
-        #self.ui.lineEdit_8.setHidden(True)
+        #self.ui.LETrudoemkost.setHidden(True)
+        #self.ui.LESebestoimost.setHidden(True)
+        #self.ui.LEVremyapartii.setHidden(True)
 
         self.initSqlModel()
         self.ui.PBSaved.clicked.connect(self.onPBSaveclicked)
@@ -45,7 +45,7 @@ class KalkulationWindow(QtWidgets.QMainWindow):
 
     def initSqlModel(self):
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
-        self.db.setDatabaseName('fieldlist_var2.db')  # 'fieldlist_var2.db'
+        self.db.setDatabaseName('fieldlist_var2.db')
         self.model = QtSql.QSqlTableModel()
 
         """Где то здесь прописать в переменную JOIN двух таблиц и ввести переменную как аргумент setTable?"""

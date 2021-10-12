@@ -41,7 +41,7 @@ class MyKalkulationCore(QtCore.QThread):
         #     work_cost_.append(row)
         # print(f"выбран материала" + {work_cost_} + ".")
 """
-        materialcost = float(self.material_rate) * 655  # вставить вместо 655 (цена за кг) данные из БД material_cost через условие
+        materialcost = float(self.material_rate) * 645  # вставить вместо 655 (цена за кг) данные из БД material_cost через условие
         print(f"Стоимость материала {materialcost}")
         resultSebest = round(resultTrud * 2350 + materialcost, 2)  # 2350 =  цена нормочаса в руб. с НДС
         vremyapartii = skorostsloev * float(self.kolichestvo) // (3600*7.5)
