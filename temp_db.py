@@ -1,15 +1,9 @@
 import datetime
 import xlsxwriter
-import sqlite3
-import openpyxl
 from xlrd import open_workbook
 import subprocess
-
-
-fieldlist_ = []
-work_cost_ = []
-material_cost_ = []
-material_dict = {}
+import sqlite3
+import openpyxl
 
 
 def download_catalog(path):
@@ -26,8 +20,7 @@ def download_catalog(path):
         print(values_)
         sql_ = "insert into material_cost (material_mark, material_cost_rub) values(?, ?)"
         cursor_connect_to_db.execute(sql_, values_)
-
-    #connect_to_db.commit()
+    # connect_to_db.commit()
 
 
 def update_table_work_cost():
@@ -48,26 +41,8 @@ def update_table_work_cost():
     # connect_to_db.commit()
 
 
-"""
-    cursor_material_cost_.execute("SELECT * FROM material_cost")
-    for row in cursor_material_cost_:
-        material_cost_.append(row)
-    print(material_cost_)
-    
-# with connect_to_db:
-#     cursor_fieldlist_ = connect_to_db.cursor()
-#     cursor_fieldlist_.execute("SELECT * FROM fieldlist")  # ORDER BY id DESC LIMIT 10
-#     cursor_work_cost_ = connect_to_db.cursor()
-#     cursor_work_cost_.execute("SELECT time_days FROM work_cost")
-#     for row in cursor_fieldlist_:
-#         fieldlist_.append(row)
-#     for row in cursor_work_cost_:
-#         work_cost_.append(row)
-#     print(fieldlist_)
-#     print(work_cost_)
-"""
-
 if __name__ == "__main__":
     path = 'C:/python/VKR/pyqtexam/material_catalog.xlsx'
     download_catalog(path)
+    update_table_work_cost()
 
