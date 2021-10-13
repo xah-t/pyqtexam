@@ -12,10 +12,9 @@ material_cost_ = []
 material_dict = {}
 
 
-
-
 def download_catalog(path):
 
+    """Открываю xlsx файл, записываю в material_cost"""
     wb_obj = openpyxl.load_workbook(path)
     sheet_obj = wb_obj.active
     connect_to_db = sqlite3.connect('fieldlist_var2.db')
@@ -29,6 +28,24 @@ def download_catalog(path):
         cursor_connect_to_db.execute(sql_, values_)
 
     #connect_to_db.commit()
+
+
+def update_table_work_cost():
+
+    """Открываю БД, выбираю из fieldlist артикулы и подстваляю в work_cost"""
+    values_ = []
+    connect_to_db = sqlite3.connect('fieldlist_var2.db')
+    cursor_connect_to_db = connect_to_db.cursor()
+    cursor_connect_to_db.execute("SELECT articul from fieldlist")
+    for row in cursor_connect_to_db:
+        values_.append(row)
+        print(values_)
+
+    sql_ = "insert into work_cost (detail) values (?)"
+    for i in range(len(list(values_))):
+        val = values_[i]
+        cursor_connect_to_db.execute(sql_, val)
+    # connect_to_db.commit()
 
 
 """
