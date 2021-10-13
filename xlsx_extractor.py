@@ -1,5 +1,6 @@
 import datetime
 import xlsxwriter
+import openpyxl
 import sqlite3
 import os
 import subprocess
@@ -68,7 +69,31 @@ class Extractor():
         subprocess.Popen(self.path, shell=True)
 
 
+def download_catalog(path):
+
+    """Функция загрузки прайса на матераил в БД"""
+
+    values_ = []
+    wb_obj = openpyxl.load_workbook(path)
+    sheet_obj = wb_obj.active
+    connect_to_db = sqlite3.connect('fieldlist_var2.db')
+    cursor_material_cost_ = connect_to_db.cursor()
+    for i in range(1, sheet_obj.max_row):
+        cell_obj = sheet_obj.cell(row=i, column=1)
+        cell_obj_1 = sheet_obj.cell(row=i, column=2)
+        values_.append(cell_obj.value)
+        values_.append(cell_obj_1.value)
+        #print(values_)
+        sql_ = "insert into material_cost (material_mark, material_cost_rub) values(?, ?)"
+        cursor_material_cost_.execute(sql_, values_)
+        values_ = []
+    #connect_to_db.commit()
+
+
 if __name__ == '__main__':
     upload_ = Extractor()
     upload_.init_tables()
     upload_.show()
+    path = 'C:/python/VKR/pyqtexam/material_catalog.xlsx'
+    download_catalog(path)
+
