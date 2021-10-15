@@ -61,21 +61,21 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         # self.model1.setTable('work_cost')  # название таблицы, а не БД
 
         self.model.select()  # вывод данных из таблицы в tableView
-        # инициализация столбцов в tableVeiw
+        # инициализация столбцов в tableView
         self.model.setHeaderData(0, QtCore.Qt.Horizontal, "ID")
         self.model.setHeaderData(1, QtCore.Qt.Horizontal, "Децимальный №")
         self.model.setHeaderData(2, QtCore.Qt.Horizontal, "Наименование")
         # self.model.setHeaderData(3, QtCore.Qt.Horizontal, "Материал")
         # self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Норма расхода материала, кг")
-        self.model.setHeaderData(3, QtCore.Qt.Horizontal, "Площадь поверхности, мм2")
-        self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Глубина обработки, мм")
-        self.model.setHeaderData(5, QtCore.Qt.Horizontal, "Трудоемкость, н/ч")
-        self.model.setHeaderData(6, QtCore.Qt.Horizontal, "Себестоимость, руб. с НДС")
+        self.model.setHeaderData(5, QtCore.Qt.Horizontal, "Площадь обработки, мм2")
+        self.model.setHeaderData(6, QtCore.Qt.Horizontal, "Глубина обработки, мм")
         # self.model1.select()
         # self.model1.setHeaderData(4, QtCore.Qt.Horizontal, "Время изготовления партии, дней")
 
         self.ui.tableView.setModel(self.model)
         self.ui.tableView.setColumnHidden(0, True)  # скрытие столбцов
+        self.ui.tableView.setColumnHidden(3, True)
+        self.ui.tableView.setColumnHidden(4, True)
         self.ui.tableView.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.ui.tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         """Вставить данные из таблиц work_cost и material_cost"""
@@ -96,10 +96,12 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.model.insertRows(index, 1)
         self.model.setData(self.model.index(index, 1), self.ui.LEArticul.text())
         self.model.setData(self.model.index(index, 2), self.ui.LEname.text())
-        self.model.setData(self.model.index(index, 3), self.ui.LEarea.text())
-        self.model.setData(self.model.index(index, 4), self.ui.LEdeep.text())
-        self.model.setData(self.model.index(index, 5), self.ui.LElabour.text())
-        self.model.setData(self.model.index(index, 6), self.ui.LEprimecost.text())
+        self.model.setData(self.model.index(index, 3), self.ui.LEMaterial.text())
+        self.model.setData(self.model.index(index, 4), self.ui.LEMaterialrate.text())
+        self.model.setData(self.model.index(index, 5), self.ui.LEarea.text())
+        self.model.setData(self.model.index(index, 6), self.ui.LEdeep.text())
+        #self.model.setData(self.model.index(index, 5), self.ui.LElabour.text())
+        #self.model.setData(self.model.index(index, 6), self.ui.LEprimecost.text())
         #self.model1.setData(self.model1.index(index, 4), self.ui.LEVremyapartii.text())   # заменить на столбец из таблицы work_cost
         self.model.submitAll()
         print('onPBSaveclicked')
