@@ -90,15 +90,14 @@ class KalkulationWindow(QtWidgets.QMainWindow):
                                          self.ui.LEMaterialrate.text())
         self.mykalkul_core.start()
         print('onPBRaschetclicked')
-        """Привязать к таблице с ценами на материал добавить параметры"""
 
     def onPBSaveclicked(self):
         index = self.model.rowCount()
         self.model.insertRows(index, 1)
         self.model.setData(self.model.index(index, 1), self.ui.LEArticul.text())
         self.model.setData(self.model.index(index, 2), self.ui.LEname.text())
-        self.model.setData(self.model.index(index, 3), self.ui.LEarea.text())  # LEMaterial
-        self.model.setData(self.model.index(index, 4), self.ui.LEdeep.text())  # LEMaterialrate
+        self.model.setData(self.model.index(index, 3), self.ui.LEarea.text())
+        self.model.setData(self.model.index(index, 4), self.ui.LEdeep.text())
         self.model.setData(self.model.index(index, 5), self.ui.LElabour.text())
         self.model.setData(self.model.index(index, 6), self.ui.LEprimecost.text())
         #self.model1.setData(self.model1.index(index, 4), self.ui.LEVremyapartii.text())   # заменить на столбец из таблицы work_cost
@@ -110,7 +109,7 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         with connect_to_db:
             cursor_fieldlist_ = connect_to_db.cursor()
             cursor_fieldlist_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
-                                      f"VALUES ('{self.ui.LEname.text()}', {self.ui.LElabour.text()}, {self.ui.LEprimecost.text()}, {self.ui.LEproductiontime.text()})")
+                                      f"VALUES ('{self.ui.LEname.text()}', {self.ui.LElabour.text()}, {self.ui.LElabour.text()} * 2350, {self.ui.LEproductiontime.text()})")
             for row in cursor_fieldlist_:
                 fieldlist_.append(row)
             print(fieldlist_)
