@@ -26,10 +26,10 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.textEdit)
 
-        self.LETrudoemkost = QLineEdit(self.layoutWidget)
-        self.LETrudoemkost.setObjectName(u"LETrudoemkost")
+        self.LElabour = QLineEdit(self.layoutWidget)
+        self.LElabour.setObjectName(u"LETrudoemkost")
 
-        self.verticalLayout.addWidget(self.LETrudoemkost)
+        self.verticalLayout.addWidget(self.LElabour)
 
 
         self.horizontalLayout_3.addLayout(self.verticalLayout)
@@ -43,10 +43,10 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addWidget(self.textEdit_2)
 
-        self.LESebestoimost = QLineEdit(self.layoutWidget)
-        self.LESebestoimost.setObjectName(u"LESebestoimost")
+        self.LEprimecost = QLineEdit(self.layoutWidget)
+        self.LEprimecost.setObjectName(u"LESebestoimost")
 
-        self.verticalLayout_2.addWidget(self.LESebestoimost)
+        self.verticalLayout_2.addWidget(self.LEprimecost)
 
 
         self.horizontalLayout_3.addLayout(self.verticalLayout_2)
@@ -60,10 +60,10 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addWidget(self.textEdit_3)
 
-        self.LEVremyapartii = QLineEdit(self.layoutWidget)
-        self.LEVremyapartii.setObjectName(u"LEVremyapartii")
+        self.LEproductiontime = QLineEdit(self.layoutWidget)
+        self.LEproductiontime.setObjectName(u"LEVremyapartii")
 
-        self.verticalLayout_3.addWidget(self.LEVremyapartii)
+        self.verticalLayout_3.addWidget(self.LEproductiontime)
 
 
         self.horizontalLayout_3.addLayout(self.verticalLayout_3)
@@ -134,10 +134,10 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addWidget(self.textEdit_4)
 
-        self.LENaimenovanie = QLineEdit(self.widget2)
-        self.LENaimenovanie.setObjectName(u"LENaimenovanie")
+        self.LEname = QLineEdit(self.widget2)
+        self.LEname.setObjectName(u"LENaimenovanie")
 
-        self.verticalLayout_4.addWidget(self.LENaimenovanie)
+        self.verticalLayout_4.addWidget(self.LEname)
 
 
         self.horizontalLayout.addLayout(self.verticalLayout_4)
@@ -305,9 +305,9 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\u0422\u0440\u0443\u0434\u043e\u0451\u043c\u043a\u043e\u0441\u0442\u044c  \u043d/\u0447</p></body></html>", None))
-        self.LETrudoemkost.setInputMask("")
-        self.LETrudoemkost.setText("")
-        self.LETrudoemkost.setPlaceholderText("")
+        self.LElabour.setInputMask("")
+        self.LElabour.setText("")
+        self.LElabour.setPlaceholderText("")
         self.textEdit_2.setMarkdown(QCoreApplication.translate("MainWindow", u"\u0421\u0435\u0431\u0435\u0441\u0442\u043e\u0438\u043c\u043e\u0441\u0442\u044c, \u0440\u0443\u0431. \u0441 \u041d\u0414\u0421\n"
 "\n"
 "", None))
@@ -316,16 +316,16 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\u0421\u0435\u0431\u0435\u0441\u0442\u043e\u0438\u043c\u043e\u0441\u0442\u044c, \u0440\u0443\u0431. \u0441 \u041d\u0414\u0421</p></body></html>", None))
-        self.LESebestoimost.setInputMask("")
-        self.LESebestoimost.setText("")
-        self.LESebestoimost.setPlaceholderText("")
+        self.LEprimecost.setInputMask("")
+        self.LEprimecost.setText("")
+        self.LEprimecost.setPlaceholderText("")
         self.textEdit_3.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:7.8pt;\">\u0421\u0440\u043e\u043a \u0438\u0437\u0433\u043e\u0442\u043e\u0432\u043b\u043d\u0435\u043d\u0438\u044f \u043f\u0430\u0440\u0442\u0438\u0438, \u0434\u043d\u0435\u0439</span></p></body></html>", None))
-        self.LEVremyapartii.setText("")
-        self.LEVremyapartii.setPlaceholderText("")
+        self.LEproductiontime.setText("")
+        self.LEproductiontime.setPlaceholderText("")
         self.PBSaved.setText(QCoreApplication.translate("MainWindow", u"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0440\u0430\u0441\u0447\u0435\u0442 \u0432 \u0420\u0435\u0435\u0441\u0442\u0440", None))
         self.PBMoved.setText(QCoreApplication.translate("MainWindow", u"\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u0440\u0430\u0441\u0447\u0435\u0442 \u0438\u0437 \u0420\u0435\u0435\u0441\u0442\u0440\u0430", None))
         self.PBExtract.setText(QCoreApplication.translate("MainWindow", u"\u0412\u044b\u0432\u0435\u0441\u0442\u0438 \u0420\u0435\u0435\u0441\u0442\u0440 \u0432 Excel", None))
@@ -346,20 +346,20 @@ class Ui_MainWindow(object):
 "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\u041d\u0430\u0438\u043c\u0435\u043d\u043e\u0432\u0430\u043d\u0438\u0435</p></body></html>", None))
 #if QT_CONFIG(tooltip)
-        self.LENaimenovanie.setToolTip("")
+        self.LEname.setToolTip("")
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(statustip)
-        self.LENaimenovanie.setStatusTip("")
+        self.LEname.setStatusTip("")
 #endif // QT_CONFIG(statustip)
 #if QT_CONFIG(whatsthis)
-        self.LENaimenovanie.setWhatsThis("")
+        self.LEname.setWhatsThis("")
 #endif // QT_CONFIG(whatsthis)
 #if QT_CONFIG(accessibility)
-        self.LENaimenovanie.setAccessibleName("")
+        self.LEname.setAccessibleName("")
 #endif // QT_CONFIG(accessibility)
-        self.LENaimenovanie.setInputMask("")
-        self.LENaimenovanie.setText("")
-        self.LENaimenovanie.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043d\u0430\u0438\u043c\u0435\u043d\u043e\u0432\u0430\u043d\u0438\u0435 \u0434\u0435\u0442\u0430\u043b\u0438", None))
+        self.LEname.setInputMask("")
+        self.LEname.setText("")
+        self.LEname.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043d\u0430\u0438\u043c\u0435\u043d\u043e\u0432\u0430\u043d\u0438\u0435 \u0434\u0435\u0442\u0430\u043b\u0438", None))
         self.textEdit_5.setMarkdown(QCoreApplication.translate("MainWindow", u"\u0410\u0440\u0442\u0438\u043a\u0443\u043b\n"
 "\n"
 "", None))

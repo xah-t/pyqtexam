@@ -32,27 +32,23 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.ui.LEamount.setValidator(ok)
         self.ui.LEamount.setFocus()
 
-
         self.initSqlModel()
         self.ui.PBSaved.clicked.connect(self.onPBSaveclicked)
         self.ui.PBRaschet.clicked.connect(self.onPBRaschetclicked)
         self.ui.PBMoved.clicked.connect(self.onPBMoveclicked)
         self.ui.PBExtract.clicked.connect(self.onPBExtractclicked)
-        self.mykalkul_core.signalTrudoemkost.connect(self.setLineEditTrudoemkost, QtCore.Qt.QueuedConnection)
-        self.mykalkul_core.signalSebestoimost.connect(self.setLineEditSebestoimost, QtCore.Qt.QueuedConnection)
-        self.mykalkul_core.signalVremyapartii.connect(self.setLineEditVremyaPartii, QtCore.Qt.QueuedConnection)
+        self.mykalkul_core.signallabour.connect(self.setLineEditTrudoemkost, QtCore.Qt.QueuedConnection)
+        self.mykalkul_core.signalprimecost.connect(self.setLineEditSebestoimost, QtCore.Qt.QueuedConnection)
+        self.mykalkul_core.signalproductiontime.connect(self.setLineEditVremyaPartii, QtCore.Qt.QueuedConnection)
 
     def setLineEditTrudoemkost(self, text):
-        self.ui.LETrudoemkost.setText(text)
+        self.ui.LElabour.setText(text)
 
     def setLineEditSebestoimost(self, text):
-        self.ui.LESebestoimost.setText(text)
+        self.ui.LEprimecost.setText(text)
 
     def setLineEditVremyaPartii(self, text):
-        self.ui.LEVremyapartii.setText(text)
-
-    # def setLineEditMaterial(self, text):
-    #     self.ui.LEMaterial.setText(text)
+        self.ui.LEproductiontime.setText(text)
 
     def initSqlModel(self):
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
@@ -85,7 +81,7 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         """Вставить данные из таблиц work_cost и material_cost"""
 
     def onPBRaschetclicked(self):
-        self.mykalkul_core.setParameters(self.ui.LENaimenovanie.text(),
+        self.mykalkul_core.setParameters(self.ui.LEname.text(),
                                          self.ui.LEArticul.text(),
                                          self.ui.LEamount.text(),
                                          self.ui.LEarea.text(),
@@ -100,11 +96,11 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         index = self.model.rowCount()
         self.model.insertRows(index, 1)
         self.model.setData(self.model.index(index, 1), self.ui.LEArticul.text())
-        self.model.setData(self.model.index(index, 2), self.ui.LENaimenovanie.text())
+        self.model.setData(self.model.index(index, 2), self.ui.LEname.text())
         self.model.setData(self.model.index(index, 3), self.ui.LEarea.text())  # LEMaterial
         self.model.setData(self.model.index(index, 4), self.ui.LEdeep.text())  # LEMaterialrate
-        self.model.setData(self.model.index(index, 5), self.ui.LETrudoemkost.text())
-        self.model.setData(self.model.index(index, 6), self.ui.LESebestoimost.text())
+        self.model.setData(self.model.index(index, 5), self.ui.LElabour.text())
+        self.model.setData(self.model.index(index, 6), self.ui.LEprimecost.text())
         #self.model1.setData(self.model1.index(index, 4), self.ui.LEVremyapartii.text())   # заменить на столбец из таблицы work_cost
         self.model.submitAll()
         print('onPBSaveclicked')
@@ -114,7 +110,7 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         with connect_to_db:
             cursor_fieldlist_ = connect_to_db.cursor()
             cursor_fieldlist_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
-                                      f"VALUES ('{self.ui.LENaimenovanie.text()}', {self.ui.LETrudoemkost.text()}, {self.ui.LESebestoimost.text()}, {self.ui.LETrudoemkost.text()}/(3600*7.5))")
+                                      f"VALUES ('{self.ui.LEname.text()}', {self.ui.LElabour.text()}, {self.ui.LEprimecost.text()}, {self.ui.LEproductiontime.text()})")
             for row in cursor_fieldlist_:
                 fieldlist_.append(row)
             print(fieldlist_)
