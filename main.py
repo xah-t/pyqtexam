@@ -12,8 +12,8 @@ class KalkulationWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         print('init')
         QtWidgets.QMainWindow.__init__(self, parent)
-        self.mykalkul = kalkulation_core.MyKalkulationCore()
-        self.ui = kalkulation_window.Ui_MainWindow()
+        self.mykalkul_core = kalkulation_core.MyKalkulationCore()  # экземпляр класса MyKalkulationCore
+        self.ui = kalkulation_window.Ui_MainWindow()  # # экземпляр класса Ui_MainWindow
         self.ui.setupUi(self)
         #self.ui.LETrudoemkost.setHidden(True)
         #self.ui.LESebestoimost.setHidden(True)
@@ -24,9 +24,9 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.ui.PBRaschet.clicked.connect(self.onPBRaschetclicked)
         self.ui.PBMoved.clicked.connect(self.onPBMoveclicked)
         self.ui.PBExtract.clicked.connect(self.onPBExtractclicked)
-        self.mykalkul.signalTrudoemkost.connect(self.setLineEditTrudoemkost, QtCore.Qt.QueuedConnection)
-        self.mykalkul.signalSebestoimost.connect(self.setLineEditSebestoimost, QtCore.Qt.QueuedConnection)
-        self.mykalkul.signalVremyapartii.connect(self.setLineEditVremyaPartii, QtCore.Qt.QueuedConnection)
+        self.mykalkul_core.signalTrudoemkost.connect(self.setLineEditTrudoemkost, QtCore.Qt.QueuedConnection)
+        self.mykalkul_core.signalSebestoimost.connect(self.setLineEditSebestoimost, QtCore.Qt.QueuedConnection)
+        self.mykalkul_core.signalVremyapartii.connect(self.setLineEditVremyaPartii, QtCore.Qt.QueuedConnection)
 
     def setLineEditTrudoemkost(self, text):
         self.ui.LETrudoemkost.setText(text)
@@ -37,11 +37,8 @@ class KalkulationWindow(QtWidgets.QMainWindow):
     def setLineEditVremyaPartii(self, text):
         self.ui.LEVremyapartii.setText(text)
 
-    def setLineEditMaterial(self, text):
-        self.ui.LEMaterial.setText(text)
-
-    # def setLineEditPloshad(self, text):
-    #     self.ui.LEPloshad.setText(text)  # lineEdit_4
+    # def setLineEditMaterial(self, text):
+    #     self.ui.LEMaterial.setText(text)
 
     def initSqlModel(self):
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
@@ -74,14 +71,14 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         """Вставить данные из таблиц work_cost и material_cost"""
 
     def onPBRaschetclicked(self):
-        self.mykalkul.setParameters(self.ui.LENaimenovanie.text(),
-                                    self.ui.LEArticul.text(),
-                                    self.ui.LEKolichestvo.text(),
-                                    self.ui.LEPloshad.text(),
-                                    self.ui.LEGlubina.text(),
-                                    self.ui.LEMaterial.text(),
-                                    self.ui.LEMaterialrate.text())
-        self.mykalkul.start()
+        self.mykalkul_core.setParameters(self.ui.LENaimenovanie.text(),
+                                         self.ui.LEArticul.text(),
+                                         self.ui.LEKolichestvo.text(),
+                                         self.ui.LEPloshad.text(),
+                                         self.ui.LEGlubina.text(),
+                                         self.ui.LEMaterial.text(),
+                                         self.ui.LEMaterialrate.text())
+        self.mykalkul_core.start()
         print('onPBRaschetclicked')
         """Привязать к таблице с ценами на материал добавить параметры"""
 
