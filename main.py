@@ -19,6 +19,20 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         #self.ui.LESebestoimost.setHidden(True)
         #self.ui.LEVremyapartii.setHidden(True)
 
+        validator = QtCore.QRegExp("[0-9]+[.]?[0-9]{,2}")
+        ok = QtGui.QRegExpValidator(validator, self)
+        self.ui.LEarea.setValidator(ok)
+        self.ui.LEarea.setFocus()
+        self.ui.LEMaterialrate.setValidator(ok)
+        self.ui.LEMaterialrate.setFocus()
+        self.ui.LEdeep.setValidator(ok)
+        self.ui.LEdeep.setFocus()
+        self.ui.LEarea.setValidator(ok)
+        self.ui.LEarea.setFocus()
+        self.ui.LEamount.setValidator(ok)
+        self.ui.LEamount.setFocus()
+
+
         self.initSqlModel()
         self.ui.PBSaved.clicked.connect(self.onPBSaveclicked)
         self.ui.PBRaschet.clicked.connect(self.onPBRaschetclicked)
@@ -59,10 +73,10 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         # self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Норма расхода материала, кг")
         self.model.setHeaderData(3, QtCore.Qt.Horizontal, "Площадь поверхности, мм2")
         self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Глубина обработки, мм")
-        self.model.setHeaderData(5, QtCore.Qt.Horizontal, "Трудоемкость, н/ч")  # Должно быть значение work_cost.work_cost_rub
-        self.model.setHeaderData(6, QtCore.Qt.Horizontal, "Себестоимость, руб. с НДС")  # заменить на стоимость изделия(сложить work_cost_rub и material_cost_rub)
+        self.model.setHeaderData(5, QtCore.Qt.Horizontal, "Трудоемкость, н/ч")
+        self.model.setHeaderData(6, QtCore.Qt.Horizontal, "Себестоимость, руб. с НДС")
         # self.model1.select()
-        # self.model1.setHeaderData(4, QtCore.Qt.Horizontal, "Время изготовления партии, часов")  # перевести в дни
+        # self.model1.setHeaderData(4, QtCore.Qt.Horizontal, "Время изготовления партии, дней")
 
         self.ui.tableView.setModel(self.model)
         self.ui.tableView.setColumnHidden(0, True)  # скрытие столбцов
@@ -73,9 +87,9 @@ class KalkulationWindow(QtWidgets.QMainWindow):
     def onPBRaschetclicked(self):
         self.mykalkul_core.setParameters(self.ui.LENaimenovanie.text(),
                                          self.ui.LEArticul.text(),
-                                         self.ui.LEKolichestvo.text(),
-                                         self.ui.LEPloshad.text(),
-                                         self.ui.LEGlubina.text(),
+                                         self.ui.LEamount.text(),
+                                         self.ui.LEarea.text(),
+                                         self.ui.LEdeep.text(),
                                          self.ui.LEMaterial.text(),
                                          self.ui.LEMaterialrate.text())
         self.mykalkul_core.start()
@@ -87,8 +101,8 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.model.insertRows(index, 1)
         self.model.setData(self.model.index(index, 1), self.ui.LEArticul.text())
         self.model.setData(self.model.index(index, 2), self.ui.LENaimenovanie.text())
-        self.model.setData(self.model.index(index, 3), self.ui.LEPloshad.text())  # LEMaterial
-        self.model.setData(self.model.index(index, 4), self.ui.LEGlubina.text())  # LEMaterialrate
+        self.model.setData(self.model.index(index, 3), self.ui.LEarea.text())  # LEMaterial
+        self.model.setData(self.model.index(index, 4), self.ui.LEdeep.text())  # LEMaterialrate
         self.model.setData(self.model.index(index, 5), self.ui.LETrudoemkost.text())
         self.model.setData(self.model.index(index, 6), self.ui.LESebestoimost.text())
         #self.model1.setData(self.model1.index(index, 4), self.ui.LEVremyapartii.text())   # заменить на столбец из таблицы work_cost

@@ -168,11 +168,11 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_6.addWidget(self.textEdit_6)
 
-        self.LEKolichestvo = QLineEdit(self.widget2)
-        self.LEKolichestvo.setObjectName(u"LEKolichestvo")
-        self.LEKolichestvo.setMaximumSize(QSize(300, 16777215))
+        self.LEamount = QLineEdit(self.widget2)
+        self.LEamount.setObjectName(u"LEKolichestvo")
+        self.LEamount.setMaximumSize(QSize(300, 16777215))
 
-        self.verticalLayout_6.addWidget(self.LEKolichestvo)
+        self.verticalLayout_6.addWidget(self.LEamount)
 
 
         self.horizontalLayout.addLayout(self.verticalLayout_6)
@@ -236,12 +236,12 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_7.addWidget(self.textEdit_7)
 
-        self.LEPloshad = QLineEdit(self.widget4)
-        self.LEPloshad.setObjectName(u"LEPloshad")
-        self.LEPloshad.setMinimumSize(QSize(200, 0))
-        self.LEPloshad.setMaximumSize(QSize(16777215, 16777215))
+        self.LEarea = QLineEdit(self.widget4)
+        self.LEarea.setObjectName(u"LEPloshad")
+        self.LEarea.setMinimumSize(QSize(200, 0))
+        self.LEarea.setMaximumSize(QSize(16777215, 16777215))
 
-        self.verticalLayout_7.addWidget(self.LEPloshad)
+        self.verticalLayout_7.addWidget(self.LEarea)
 
 
         self.horizontalLayout_5.addLayout(self.verticalLayout_7)
@@ -255,12 +255,12 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addWidget(self.textEdit_9)
 
-        self.LEGlubina = QLineEdit(self.widget4)
-        self.LEGlubina.setObjectName(u"LEGlubina")
-        self.LEGlubina.setMinimumSize(QSize(200, 0))
-        self.LEGlubina.setMaximumSize(QSize(16777215, 16777215))
+        self.LEdeep = QLineEdit(self.widget4)
+        self.LEdeep.setObjectName(u"LEGlubina")
+        self.LEdeep.setMinimumSize(QSize(200, 0))
+        self.LEdeep.setMaximumSize(QSize(16777215, 16777215))
 
-        self.verticalLayout_8.addWidget(self.LEGlubina)
+        self.verticalLayout_8.addWidget(self.LEdeep)
 
 
         self.horizontalLayout_5.addLayout(self.verticalLayout_8)
@@ -379,9 +379,9 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\u0420\u0430\u0437\u043c\u0435\u0440 \u043f\u0430\u0440\u0442\u0438\u0438</p></body></html>", None))
-        self.LEKolichestvo.setInputMask("")
-        self.LEKolichestvo.setText("")
-        self.LEKolichestvo.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u041a\u043e\u043b-\u0432\u043e, \u0448\u0442.", None))
+        self.LEamount.setInputMask("")
+        self.LEamount.setText("")
+        self.LEamount.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u041a\u043e\u043b-\u0432\u043e, \u0448\u0442.", None))
         self.textEdit_8.setMarkdown(QCoreApplication.translate("MainWindow", u"\u041c\u0430\u0440\u043a\u0430 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0430\n"
 "\n"
 "", None))
@@ -433,9 +433,9 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:7.8pt;\">\u041f\u043b\u043e\u0449\u0430\u0434\u044c \u043e\u0431\u0440\u0430\u0431\u043e\u0442\u043a\u0438, \u043c\u043c2</span></p></body></html>", None))
-        self.LEPloshad.setInputMask("")
-        self.LEPloshad.setText("")
-        self.LEPloshad.setPlaceholderText(QCoreApplication.translate("MainWindow", u"mm2", None))
+        self.LEarea.setInputMask("")
+        self.LEarea.setText("")
+        self.LEarea.setPlaceholderText(QCoreApplication.translate("MainWindow", u"mm2", None))
         self.textEdit_9.setMarkdown(QCoreApplication.translate("MainWindow", u"\u0413\u043b\u0443\u0431\u0438\u043d\u0430 \u043e\u0431\u0440\u0430\u0431\u043e\u0442\u043a\u0438, \u043c\u043c\n"
 "\n"
 "", None))
@@ -444,8 +444,8 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:7.8pt;\">\u0413\u043b\u0443\u0431\u0438\u043d\u0430 \u043e\u0431\u0440\u0430\u0431\u043e\u0442\u043a\u0438, \u043c\u043c</span></p></body></html>", None))
-        self.LEGlubina.setText("")
-        self.LEGlubina.setPlaceholderText(QCoreApplication.translate("MainWindow", u"mm", None))
+        self.LEdeep.setText("")
+        self.LEdeep.setPlaceholderText(QCoreApplication.translate("MainWindow", u"mm", None))
         self.PBRaschet.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0430\u0441\u0447\u0438\u0442\u0430\u0442\u044c", None))
         self.menu.setTitle(QCoreApplication.translate("MainWindow", u"\u041d\u043e\u0432\u044b\u0439 \u0440\u0430\u0441\u0447\u0435\u0442", None))
     # retranslateUi
