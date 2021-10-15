@@ -1,9 +1,8 @@
 import sys
-from PySide2 import QtWidgets, QtCore, QtGui, QtSql
 import kalkulation_window
 import kalkulation_core
 import sqlite3
-#import temp
+from PySide2 import QtWidgets, QtCore, QtGui, QtSql
 from xlsx_extractor import Extractor
 
 
@@ -15,9 +14,9 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.mykalkul_core = kalkulation_core.MyKalkulationCore()  # экземпляр класса MyKalkulationCore
         self.ui = kalkulation_window.Ui_MainWindow()  # # экземпляр класса Ui_MainWindow
         self.ui.setupUi(self)
-        #self.ui.LETrudoemkost.setHidden(True)
-        #self.ui.LESebestoimost.setHidden(True)
-        #self.ui.LEVremyapartii.setHidden(True)
+        #self.ui.LElabour.setHidden(True)
+        #self.ui.LEprimecost.setHidden(True)
+        #self.ui.LEproductiontime.setHidden(True)
 
         validator = QtCore.QRegExp("[0-9]+[.]?[0-9]{,2}")
         ok = QtGui.QRegExpValidator(validator, self)
@@ -37,17 +36,17 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.ui.PBRaschet.clicked.connect(self.onPBRaschetclicked)
         self.ui.PBMoved.clicked.connect(self.onPBMoveclicked)
         self.ui.PBExtract.clicked.connect(self.onPBExtractclicked)
-        self.mykalkul_core.signallabour.connect(self.setLineEditTrudoemkost, QtCore.Qt.QueuedConnection)
-        self.mykalkul_core.signalprimecost.connect(self.setLineEditSebestoimost, QtCore.Qt.QueuedConnection)
-        self.mykalkul_core.signalproductiontime.connect(self.setLineEditVremyaPartii, QtCore.Qt.QueuedConnection)
+        self.mykalkul_core.signallabour.connect(self.setLineEditlabour, QtCore.Qt.QueuedConnection)
+        self.mykalkul_core.signalprimecost.connect(self.setLineEditprimecost, QtCore.Qt.QueuedConnection)
+        self.mykalkul_core.signalproductiontime.connect(self.setLineEditproductiontime, QtCore.Qt.QueuedConnection)
 
-    def setLineEditTrudoemkost(self, text):
+    def setLineEditlabour(self, text):
         self.ui.LElabour.setText(text)
 
-    def setLineEditSebestoimost(self, text):
+    def setLineEditprimecost(self, text):
         self.ui.LEprimecost.setText(text)
 
-    def setLineEditVremyaPartii(self, text):
+    def setLineEditproductiontime(self, text):
         self.ui.LEproductiontime.setText(text)
 
     def initSqlModel(self):
@@ -56,10 +55,12 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.model = QtSql.QSqlTableModel()
 
         """Где то здесь прописать в переменную JOIN двух таблиц и ввести переменную как аргумент setTable?"""
-        self.model.setTable('fieldlist')  # название таблицы fieldlist, а не БД
-        # self.model1 = QtSql.QSqlTableModel()
-        # self.model1.setTable('work_cost')  # название таблицы, а не БД
+        """JOIN"""
+        """JOIN"""
+        """JOIN"""
+        """JOIN"""
 
+        self.model.setTable('fieldlist')  # название таблицы fieldlist, а не БД
         self.model.select()  # вывод данных из таблицы в tableView
         # инициализация столбцов в tableView
         self.model.setHeaderData(0, QtCore.Qt.Horizontal, "ID")
@@ -69,8 +70,6 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         # self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Норма расхода материала, кг")
         self.model.setHeaderData(5, QtCore.Qt.Horizontal, "Площадь обработки, мм2")
         self.model.setHeaderData(6, QtCore.Qt.Horizontal, "Глубина обработки, мм")
-        # self.model1.select()
-        # self.model1.setHeaderData(4, QtCore.Qt.Horizontal, "Время изготовления партии, дней")
 
         self.ui.tableView.setModel(self.model)
         self.ui.tableView.setColumnHidden(0, True)  # скрытие столбцов
@@ -100,12 +99,8 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.model.setData(self.model.index(index, 4), self.ui.LEMaterialrate.text())
         self.model.setData(self.model.index(index, 5), self.ui.LEarea.text())
         self.model.setData(self.model.index(index, 6), self.ui.LEdeep.text())
-        #self.model.setData(self.model.index(index, 5), self.ui.LElabour.text())
-        #self.model.setData(self.model.index(index, 6), self.ui.LEprimecost.text())
-        #self.model1.setData(self.model1.index(index, 4), self.ui.LEVremyapartii.text())   # заменить на столбец из таблицы work_cost
         self.model.submitAll()
         print('onPBSaveclicked')
-        #print(self.ui.LENaimenovanie.text())
         fieldlist_ = []
         connect_to_db = sqlite3.connect('fieldlist_var2.db')
         with connect_to_db:
@@ -114,14 +109,6 @@ class KalkulationWindow(QtWidgets.QMainWindow):
                                       f"VALUES ('{self.ui.LEname.text()}', {self.ui.LElabour.text()}, {self.ui.LElabour.text()} * 2350, {self.ui.LEproductiontime.text()})")
             for row in cursor_fieldlist_:
                 fieldlist_.append(row)
-            print(fieldlist_)
-
-            """Traceback (most recent call last):
-                File "C:\python\VKR\pyqtexam\main.py", line 105, in onPBSaveclicked
-                cursor_fieldlist_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
-                sqlite3.OperationalError: database is locked"""
-
-        """Добавить сохранение в данных в таблицу work_cost(insert)"""
 
     def onPBMoveclicked(self):
         if self.ui.tableView.currentIndex().row() > -1:
