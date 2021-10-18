@@ -33,7 +33,7 @@ class MyKalkulationCore(QtCore.QThread):
         print(self.amount)
         print(self.area)
         print(self.deep)
-        print(self.material)  # "Лист Д16Ам 1,2х1200х3000" 303rub
+        print(self.material)  # "Лист Д16Ат 0,5х1200х3000" 520rub
         print(self.material_rate)
 
         """Трудоёмкость = ((Площадь *1.8 * Глубину) / 3600)

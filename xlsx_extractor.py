@@ -4,6 +4,8 @@ import openpyxl
 import sqlite3
 import os
 import subprocess
+import main
+
 
 
 class Extractor():
@@ -13,7 +15,7 @@ class Extractor():
         fieldlist_ = []
         work_cost_ = []
         material_cost_ = []
-        n_r = 235
+        total_cost_ =[]
         connect_to_db = sqlite3.connect('fieldlist_var2.db')  # fieldlist_var2.db
         with connect_to_db:
             cursor_fieldlist_ = connect_to_db.cursor()
@@ -21,14 +23,23 @@ class Extractor():
             for row in cursor_fieldlist_:
                 fieldlist_.append(row)
             cursor_work_cost_ = connect_to_db.cursor()
-            cursor_work_cost_.execute("SELECT labour, work_cost_rub FROM work_cost")
+            cursor_work_cost_.execute("SELECT labour, work_cost_rub FROM work_cost, fieldlist WHERE detail LIKE fieldlist.articul")
             for row in cursor_work_cost_:
                 work_cost_.append(row)
             cursor_material_cost_ = connect_to_db.cursor()
-            cursor_material_cost_.execute(f"SELECT work_cost_rub + material_cost_rub * {n_r} AS final_cost FROM work_cost, material_cost")
+            cursor_material_cost_.execute(f"SELECT material_cost.material_cost_rub * fieldlist.material_rate_kg AS mfinal_cost FROM material_cost, fieldlist,"
+                                          f"work_cost WHERE material_cost.material_mark LIKE fieldlist.material "
+                                          f"AND work_cost.detail = fieldlist.articul")
             # прописать значение н.р. здесь как множитель material_cost, или сначала выгрузить material_cost в переменную, а потом умножить на н.р.??
             for row in cursor_material_cost_:
                 material_cost_.append(row)
+            cursor_total_cost_ = connect_to_db.cursor()
+            cursor_total_cost_.execute(f"SELECT work_cost.work_cost_rub + material_cost.material_cost_rub * fieldlist.material_rate_kg AS final_cost FROM work_cost, material_cost,"
+                                          f"fieldlist WHERE material_cost.material_mark LIKE fieldlist.material "
+                                          f"AND work_cost.detail = fieldlist.articul")
+            # прописать значение н.р. здесь как множитель material_cost, или сначала выгрузить material_cost в переменную, а потом умножить на н.р.??
+            for row in cursor_total_cost_:
+                total_cost_.append(row)
 
         # Create an new Excel file and add a worksheet.
         workbook = xlsxwriter.Workbook('Реестр_' + str(datetime.date.today()) + '.xlsx')
@@ -45,7 +56,8 @@ class Extractor():
         #worksheet.write('E1', 'Глубина обработки, мм"', bold)
         worksheet.write('D1', 'Трудоемкость, н/ч', bold)
         worksheet.write('E1', 'Стоимость работ, руб. с НДС', bold)
-        worksheet.write('F1', 'Стоимость материала, руб. с НДС', bold)
+        worksheet.write('F1', 'Cтоимость материала, руб. с НДС', bold)
+        worksheet.write('G1', 'Общая стоимость, руб. с НДС', bold)
         #worksheet.write('H1', 'Срок изготовления партии,  дней', bold)  #нужно взять из другой таблицы
 
         # Write some data.
@@ -58,6 +70,9 @@ class Extractor():
         for num_row, row_data in enumerate(material_cost_):
             for num_col, col_data in enumerate(row_data):
                 worksheet.write(num_row+1, num_col+5, col_data)
+        for num_row, row_data in enumerate(total_cost_):
+            for num_col, col_data in enumerate(row_data):
+                worksheet.write(num_row+1, num_col+6, col_data)
         return workbook
 
     def close(self):
