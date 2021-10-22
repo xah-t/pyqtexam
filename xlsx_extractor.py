@@ -4,8 +4,6 @@ import openpyxl
 import sqlite3
 import os
 import subprocess
-import main
-
 
 
 class Extractor():
@@ -15,8 +13,11 @@ class Extractor():
         fieldlist_ = []
         work_cost_ = []
         material_cost_ = []
-        total_cost_ =[]
+        total_cost_ = []
         connect_to_db = sqlite3.connect('fieldlist_var2.db')  # fieldlist_var2.db
+
+        """Попробовать JOINить таблицы, чтобы резулььат в xls приходил синхронизированный"""
+
         with connect_to_db:
             cursor_fieldlist_ = connect_to_db.cursor()
             cursor_fieldlist_.execute("SELECT id, articul, name FROM fieldlist")  # ORDER BY id DESC LIMIT 10
@@ -30,13 +31,13 @@ class Extractor():
             cursor_material_cost_.execute(f"SELECT material_cost.material_cost_rub * fieldlist.material_rate_kg AS mfinal_cost FROM material_cost, fieldlist,"
                                           f"work_cost WHERE material_cost.material_mark LIKE fieldlist.material "
                                           f"AND work_cost.detail = fieldlist.articul")
-            # прописать значение н.р. здесь как множитель material_cost, или сначала выгрузить material_cost в переменную, а потом умножить на н.р.??
             for row in cursor_material_cost_:
                 material_cost_.append(row)
             cursor_total_cost_ = connect_to_db.cursor()
-            cursor_total_cost_.execute(f"SELECT work_cost.work_cost_rub + material_cost.material_cost_rub * fieldlist.material_rate_kg AS final_cost FROM work_cost, material_cost,"
-                                          f"fieldlist WHERE material_cost.material_mark LIKE fieldlist.material "
-                                          f"AND work_cost.detail = fieldlist.articul")
+            cursor_total_cost_.execute(f"SELECT work_cost.work_cost_rub + material_cost.material_cost_rub * fieldlist.material_rate_kg"
+                                       f" AS final_cost FROM work_cost, material_cost,"
+                                       f"fieldlist WHERE material_cost.material_mark LIKE fieldlist.material "
+                                       f"AND work_cost.detail = fieldlist.articul")
             # прописать значение н.р. здесь как множитель material_cost, или сначала выгрузить material_cost в переменную, а потом умножить на н.р.??
             for row in cursor_total_cost_:
                 total_cost_.append(row)

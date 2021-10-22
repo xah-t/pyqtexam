@@ -1,10 +1,11 @@
 import sys
-import kalkulation_window
+import kalkulation_window2
+#import kalkulation_window_scrollarea
 import kalkulation_core
 import sqlite3
 from PySide2 import QtWidgets, QtCore, QtGui, QtSql
 from xlsx_extractor import Extractor
-
+"""PySide2-uic kalkulation_window_scrollarea.ui -o kalkulation_window_scrollarea.py"""
 
 class KalkulationWindow(QtWidgets.QMainWindow):
 
@@ -12,7 +13,8 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         print('init')
         QtWidgets.QMainWindow.__init__(self, parent)
         self.mykalkul_core = kalkulation_core.MyKalkulationCore()  # экземпляр класса MyKalkulationCore
-        self.ui = kalkulation_window.Ui_MainWindow()  # # экземпляр класса Ui_MainWindow
+        self.ui = kalkulation_window2.Ui_MainWindow()
+        #self.ui = kalkulation_window_scrollarea.Ui_MainWindow()# # экземпляр класса Ui_MainWindow kalkulation_window_scrollarea
         self.ui.setupUi(self)
         #self.ui.LElabour.setHidden(True)
         #self.ui.LEprimecost.setHidden(True)
@@ -53,16 +55,25 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
         self.db.setDatabaseName('fieldlist_var2.db')
         self.model = QtSql.QSqlTableModel()
+        self.model1 = QtSql.QSqlTableModel()
 
         """Где то здесь прописать в переменную JOIN двух таблиц и ввести переменную как аргумент setTable?"""
+        #connection_for_table_view = sqlite3.connect('fieldlist_var2.db')
+        #cursor_connection_for_table_view = connection_for_table_view.cursor()
+        #cursor_connection_for_table_view.execute('SELECT fieldlist.articul, fieldlist.name, work_cost.work_cost_rub, work_cost.time_days, material_cost.material_cost_rub FROM fieldlist'
+        #                                         ' LEFT JOIN work_cost ON fieldlist.articul = work_cost.detail'
+        #                                        ' LEFT JOIN material_cost ON fieldlist.material = material_cost.material_mark')
+
         """JOIN"""
         """JOIN"""
         """JOIN"""
         """JOIN"""
 
         self.model.setTable('fieldlist')  # название таблицы fieldlist, а не БД
-        self.model.select()  # вывод данных из таблицы в tableView
-        # инициализация столбцов в tableView
+        self.model.select()  # вывод данных из таблицы в tableView_1
+        self.model1.setTable('work_cost')
+        self.model1.select()
+        # инициализация столбцов в tableView_1
         self.model.setHeaderData(0, QtCore.Qt.Horizontal, "ID")
         self.model.setHeaderData(1, QtCore.Qt.Horizontal, "Децимальный №")
         self.model.setHeaderData(2, QtCore.Qt.Horizontal, "Наименование")
@@ -70,13 +81,20 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         # self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Норма расхода материала, кг")
         self.model.setHeaderData(5, QtCore.Qt.Horizontal, "Площадь обработки, мм2")
         self.model.setHeaderData(6, QtCore.Qt.Horizontal, "Глубина обработки, мм")
+        self.model1.setHeaderData(0, QtCore.Qt.Horizontal, "ID")
+        self.model1.setHeaderData(1, QtCore.Qt.Horizontal, "Idetail")
+        self.model1.setHeaderData(0, QtCore.Qt.Horizontal, "labour")
 
-        self.ui.tableView.setModel(self.model)
-        self.ui.tableView.setColumnHidden(0, True)  # скрытие столбцов
-        self.ui.tableView.setColumnHidden(3, True)
-        self.ui.tableView.setColumnHidden(4, True)
-        self.ui.tableView.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.ui.tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+        self.ui.tableView_1.setModel(self.model)
+        self.ui.tableView_1.setColumnHidden(0, True)  # скрытие столбцов
+        self.ui.tableView_1.setColumnHidden(3, True)
+        self.ui.tableView_1.setColumnHidden(4, True)
+        self.ui.tableView_1.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.ui.tableView_1.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+        # self.ui.tableView_2.setModel(self.model1)
+        # self.ui.tableView_2.setColumnHidden(0, True)  # скрытие столбцов
+        # self.ui.tableView_2.setColumnHidden(1, True)
+        # self.ui.tableView_2.setColumnHidden(3, True)
         """Вставить данные из таблиц work_cost и material_cost"""
 
     def onPBRaschetclicked(self):
@@ -111,14 +129,14 @@ class KalkulationWindow(QtWidgets.QMainWindow):
                 fieldlist_.append(row)
 
     def onPBMoveclicked(self):
-        if self.ui.tableView.currentIndex().row() > -1:
+        if self.ui.tableView_1.currentIndex().row() > -1:
             index_list = []
-            for model_index in self.ui.tableView.selectionModel().selectedRows():
+            for model_index in self.ui.tableView_1.selectionModel().selectedRows():
                 index = QtCore.QPersistentModelIndex(model_index)
                 index_list.append(index)
             for index in index_list:
                  self.model.removeRow(index.row())
-            self.model.select()  # update tableView
+            self.model.select()  # update tableView_1
         else:
             QtWidgets.QMessageBox.about(self, 'Message', 'Выберите строку')
         print("onPBMoveClicked")
