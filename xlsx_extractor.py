@@ -17,6 +17,7 @@ class Extractor():
         connect_to_db = sqlite3.connect('fieldlist_var2.db')  # fieldlist_var2.db
 
         """Попробовать JOINить таблицы, чтобы резулььат в xls приходил синхронизированный"""
+        #DELETE FROM work_cost WHERE (SELECT COUNT(*) FROM fieldlist WHERE fieldlist.articul = work_cost.detail) = 0
 
         with connect_to_db:
             cursor_fieldlist_ = connect_to_db.cursor()
@@ -25,7 +26,7 @@ class Extractor():
                 fieldlist_.append(row)
             cursor_work_cost_ = connect_to_db.cursor()
             cursor_work_cost_.execute("SELECT labour, work_cost_rub FROM work_cost, fieldlist "
-                                      "WHERE detail LIKE fieldlist.articul")
+                                      "WHERE work_cost.detail = fieldlist.articul")
             for row in cursor_work_cost_:
                 work_cost_.append(row)
             cursor_material_cost_ = connect_to_db.cursor()

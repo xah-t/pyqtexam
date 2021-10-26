@@ -1,6 +1,7 @@
 from PySide2 import QtCore
 import main
 import sqlite3
+from PySide2 import QtWidgets
 
 
 class MyKalkulationCore(QtCore.QThread):
@@ -33,13 +34,12 @@ class MyKalkulationCore(QtCore.QThread):
         print(self.amount)
         print(self.area)
         print(self.deep)
-        print(self.material)  # "Лист Д16Ат 0,5х1200х3000" 520rub
+        print(self.material)
         print(self.material_rate)
 
         """Трудоёмкость = ((Площадь *1.8 * Глубину) / 3600)
         - 1.8 - стандартное время обработки 1мм2 площади
         - 3600 - кол-во секунд в 1 часе"""
-        """Нужна валидация вводимых данных"""
         resultlabour = round(((float(self.area) * 1.8) * float(self.deep)) / 3600, 3)  # трудоемкость = площадь обработки*кол-во секунд / 3600(перевод в н/ч)
 
         """Поиск цены """
@@ -51,6 +51,7 @@ class MyKalkulationCore(QtCore.QThread):
         materialcost = float(self.material_rate) * matprice  # данные из БД material_cost через условие
         resultsebest = round(resultlabour * 2350 + materialcost, 2)  # 2350 =  цена нормочаса в руб. с НДС
         productiontime = (float(self.area) * 1.8) * float(self.deep) * float(self.amount) // (3600 * 7.5)
+
         print(f"Цена материала =  {matprice} руб./кг с НДС")
         print(f"Трудоёмкость {resultlabour} н.ч.")
         print(f"Стоимость материала {materialcost} руб. с НДС")

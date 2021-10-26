@@ -41,6 +41,11 @@ def update_table_work_cost():
     # connect_to_db.commit()
 
 
+def check_synchro_in_db():
+    connect_to_db = sqlite3.connect('fieldlist_var2.db')
+    cursor_connect_to_db = connect_to_db.cursor()
+    cursor_connect_to_db.execute("SELECT articul from fieldlist")
+
 if __name__ == "__main__":
     path = 'C:/python/VKR/pyqtexam/material_catalog.xlsx'
     download_catalog(path)
