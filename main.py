@@ -86,7 +86,7 @@ class KalkulationWindow(QtWidgets.QMainWindow):
                                          self.ui.LEdeep.text(),
                                          self.ui.LEMaterial.text(),
                                          self.ui.LEMaterialrate.text())
-        self.mykalkul_core.start()
+        self.mykalkul_core.start()  # terminate - останавливает поток
         print('onPBRaschetclicked')
 
 
@@ -116,7 +116,7 @@ class KalkulationWindow(QtWidgets.QMainWindow):
                     if self.ui.LEArticul.text() in row_data:
                         print(self.ui.LEArticul.text())
                         QtWidgets.QMessageBox.about(self, 'Message', f"Деталь {self.ui.LEArticul.text()} уже заведена в базу.")
-
+                        self.model.revertAll()
             cursor_work_cost_for_validate_articul = connect_to_db.cursor()
             cursor_work_cost_for_validate_articul.execute("SELECT detail FROM work_cost")
             for row in cursor_work_cost_for_validate_articul:
@@ -126,7 +126,7 @@ class KalkulationWindow(QtWidgets.QMainWindow):
                     if self.ui.LEArticul.text() in row_data:
                         print(self.ui.LEArticul.text())
                         QtWidgets.QMessageBox.about(self, 'Message', f"Расчёт {self.ui.LEArticul.text()} уже производился.")
-
+                        self.model.revertAll()
                         """Здесь добавить действие возвращающее к заполнеию формы"""
                     else:
                         self.model.submitAll()  # Перенести строку ниже, после валидации
@@ -151,6 +151,8 @@ class KalkulationWindow(QtWidgets.QMainWindow):
             for index in index_list:
                 self.model.removeRow(index.row())
                 connect_to_db = sqlite3.connect("fieldlist_var2.db")
+                cursor_work_cost_ = connect_to_db.cursor()
+                cursor_work_cost_.execute(f"DELETE FROM work_cost WHERE NOT EXISTS (SELECT * from fieldlist)")
             self.model.select()
             self.update_model_for_view()
         else:
