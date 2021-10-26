@@ -78,7 +78,6 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.model.select()
 
     def onPBRaschetclicked(self):
-
         self.mykalkul_core.setParameters(self.ui.LEname.text(),
                                          self.ui.LEArticul.text(),
                                          self.ui.LEamount.text(),
@@ -88,7 +87,6 @@ class KalkulationWindow(QtWidgets.QMainWindow):
                                          self.ui.LEMaterialrate.text())
         self.mykalkul_core.start()  # terminate - останавливает поток
         print('onPBRaschetclicked')
-
 
     def onPBSaveclicked(self):
         index = self.model.rowCount()
@@ -102,45 +100,96 @@ class KalkulationWindow(QtWidgets.QMainWindow):
 
         """Проверка наличия значения в fieldlist и work_cost по артикулу"""
         # DELETE FROM work_cost WHERE NOT EXISTS (SELECT * from fieldlist)
-        fieldlist_for_validate_articul = []
-        work_cost_for_validate_articul = []
+
+        value_ = self.ui.LEArticul.text()
+        if Extractor.check_synchro_in_db(value_):
+            QtWidgets.QMessageBox.about(self, 'Message', f"Деталь {self.ui.LEArticul.text()} уже заведена в базу.")
+            self.model.revertAll()
+        else:
+            self.model.submitAll()
+            connect_to_db = sqlite3.connect('fieldlist_var2.db')
+            with connect_to_db:  # разобраться, что за оператор такой фитрый
+                cursor_work_cost_ = connect_to_db.cursor()
+                cursor_work_cost_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
+                                          f"VALUES ('{self.ui.LEArticul.text()}', {self.ui.LElabour.text()}, {self.ui.LElabour.text()} * 2350, {self.ui.LEproductiontime.text()})")
+              # Перенести строку ниже, после валидации
+        print('onPBSaveclicked')
+        self.update_model_for_view()
+        """
         connect_to_db = sqlite3.connect('fieldlist_var2.db')
+        cursor_connect_to_db = connect_to_db.cursor()
+        cur = ''
+        cursor_connect_to_db.execute("SELECT articul from fieldlist where articul = ?", (value_,))
+        try:
+            cur = cursor_connect_to_db.fetchone()[0]
+            if value_ == cur:
+                print(True)
+                QtWidgets.QMessageBox.about(self, 'Message', f"Деталь {self.ui.LEArticul.text()} уже заведена в базу.")
+                self.model.revertAll()
+        except TypeError:
+            print(False)
+        finally:
+            connect_to_db = sqlite3.connect('fieldlist_var2.db')
+            cursor_fieldlist_ = connect_to_db.cursor()
+            cursor_fieldlist_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
+                                      f"VALUES ('{self.ui.LEArticul.text()}', {self.ui.LElabour.text()}, {self.ui.LElabour.text()} * 2350, {self.ui.LEproductiontime.text()})")
+        self.model.submitAll()  # Перенести строку ниже, после валидации
+        """
+
+        """Скорректировать валидатор, условия перенести после обоих курсоров"""
+        """
         with connect_to_db:
             cursor_fieldlist_for_validate_articul = connect_to_db.cursor()
-            cursor_fieldlist_for_validate_articul.execute("SELECT articul FROM fieldlist")
+            cursor_fieldlist_for_validate_articul.execute("SELECT articul FROM fieldlist where articul = ?", value_)
             for row in cursor_fieldlist_for_validate_articul:
                 fieldlist_for_validate_articul.append(row)
-                #print(fieldlist_for_validate_articul)
+
+            cursor_work_cost_for_validate_articul = connect_to_db.cursor()
+            cursor_work_cost_for_validate_articul.execute("SELECT detail FROM work_cost")
+            for row in cursor_work_cost_for_validate_articul:
+                work_cost_for_validate_articul.append(row)
             for num_row, row_data in enumerate(fieldlist_for_validate_articul):
                 for col_data in enumerate(row_data):
                     if self.ui.LEArticul.text() in row_data:
                         print(self.ui.LEArticul.text())
                         QtWidgets.QMessageBox.about(self, 'Message', f"Деталь {self.ui.LEArticul.text()} уже заведена в базу.")
                         self.model.revertAll()
-            cursor_work_cost_for_validate_articul = connect_to_db.cursor()
-            cursor_work_cost_for_validate_articul.execute("SELECT detail FROM work_cost")
-            for row in cursor_work_cost_for_validate_articul:
-                work_cost_for_validate_articul.append(row)
             for num_row, row_data in enumerate(work_cost_for_validate_articul):
                 for col_data in enumerate(row_data):
                     if self.ui.LEArticul.text() in row_data:
                         print(self.ui.LEArticul.text())
                         QtWidgets.QMessageBox.about(self, 'Message', f"Расчёт {self.ui.LEArticul.text()} уже производился.")
                         self.model.revertAll()
-                        """Здесь добавить действие возвращающее к заполнеию формы"""
                     else:
+                        cursor_fieldlist_ = connect_to_db.cursor()
+                        cursor_fieldlist_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
+                                                  f"VALUES ('{self.ui.LEArticul.text()}', {self.ui.LElabour.text()}, {self.ui.LElabour.text()} * 2350, {self.ui.LEproductiontime.text()})")
                         self.model.submitAll()  # Перенести строку ниже, после валидации
-        print('onPBSaveclicked')
+            """
+            # cursor_work_cost_for_validate_articul = connect_to_db.cursor()
+            # cursor_work_cost_for_validate_articul.execute("SELECT detail FROM work_cost")
+            # for row in cursor_work_cost_for_validate_articul:
+            #     work_cost_for_validate_articul.append(row)
+            # for num_row, row_data in enumerate(work_cost_for_validate_articul):
+            #     for col_data in enumerate(row_data):
+            #         if self.ui.LEArticul.text() in row_data:
+            #             print(self.ui.LEArticul.text())
+            #             QtWidgets.QMessageBox.about(self, 'Message', f"Расчёт {self.ui.LEArticul.text()} уже производился.")
+            #             self.model.revertAll()
+        """Здесь добавить действие возвращающее к заполнеию формы"""
+                   # else:
 
-        fieldlist_ = []
-        with connect_to_db:
-            cursor_fieldlist_ = connect_to_db.cursor()
-            cursor_fieldlist_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
-                                      f"VALUES ('{self.ui.LEArticul.text()}', {self.ui.LElabour.text()}, {self.ui.LElabour.text()} * 2350, {self.ui.LEproductiontime.text()})")
-            for row in cursor_fieldlist_:
-                fieldlist_.append(row)
 
-        self.update_model_for_view()
+
+        # fieldlist_ = []
+        # with connect_to_db:
+        #     cursor_fieldlist_ = connect_to_db.cursor()
+        #     cursor_fieldlist_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
+        #                               f"VALUES ('{self.ui.LEArticul.text()}', {self.ui.LElabour.text()}, {self.ui.LElabour.text()} * 2350, {self.ui.LEproductiontime.text()})")
+        #     for row in cursor_fieldlist_:
+        #         fieldlist_.append(row)
+
+
 
     def onPBMoveclicked(self):
         if self.ui.tableView_1.currentIndex().row() > -1:
@@ -150,9 +199,9 @@ class KalkulationWindow(QtWidgets.QMainWindow):
                 index_list.append(index)
             for index in index_list:
                 self.model.removeRow(index.row())
-                connect_to_db = sqlite3.connect("fieldlist_var2.db")
-                cursor_work_cost_ = connect_to_db.cursor()
-                cursor_work_cost_.execute(f"DELETE FROM work_cost WHERE NOT EXISTS (SELECT * from fieldlist)")
+                # connect_to_db = sqlite3.connect("fieldlist_var2.db")
+                # cursor_work_cost_ = connect_to_db.cursor()
+                # cursor_work_cost_.execute(f"DELETE FROM work_cost WHERE NOT EXISTS (SELECT * from fieldlist)")
             self.model.select()
             self.update_model_for_view()
         else:

@@ -1,6 +1,6 @@
 import datetime
 import xlsxwriter
-from xlrd import open_workbook
+#from xlrd import open_workbook
 import subprocess
 import sqlite3
 import openpyxl
@@ -40,14 +40,26 @@ def update_table_work_cost():
         cursor_connect_to_db.execute(sql_, val)
     # connect_to_db.commit()
 
-
-def check_synchro_in_db():
+def check_synchro_in_db(val):
     connect_to_db = sqlite3.connect('fieldlist_var2.db')
     cursor_connect_to_db = connect_to_db.cursor()
-    cursor_connect_to_db.execute("SELECT articul from fieldlist")
+    cur = ''
+    cursor_connect_to_db.execute("SELECT articul from fieldlist where articul = ?", (val,))
+    try:
+        cur = cursor_connect_to_db.fetchone()[0]
+        if val == cur:
+            return True
+    except TypeError:
+        return False
+
+
+
 
 if __name__ == "__main__":
-    path = 'C:/python/VKR/pyqtexam/material_catalog.xlsx'
-    download_catalog(path)
-    update_table_work_cost()
+    #path = 'C:/python/VKR/pyqtexam/material_catalog.xlsx'
+    #download_catalog(path)
+    #update_table_work_cost()
+    #value_ = str("КЕ.356.655")
+    #value2 = str("КЕ.356.6523")
+    #check_synchro_in_db(value_)
 

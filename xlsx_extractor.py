@@ -82,6 +82,18 @@ class Extractor():
         self.path = "C:/python/VKR/pyqtexam/Реестр_" + str(datetime.date.today()) + ".xlsx"
         subprocess.Popen(self.path, shell=True)
 
+    def check_synchro_in_db(val):
+        connect_to_db = sqlite3.connect('fieldlist_var2.db')
+        cursor_connect_to_db = connect_to_db.cursor()
+        cur = ''
+        cursor_connect_to_db.execute("SELECT articul from fieldlist where articul = ?", (val,))
+        try:
+            cur = cursor_connect_to_db.fetchone()[0]
+            if val == cur:
+                return True
+        except TypeError:
+            return False
+
 
 def download_catalog(path):
 
