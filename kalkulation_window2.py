@@ -21,11 +21,28 @@ class Ui_MainWindow(object):
         MainWindow.setMinimumSize(QSize(0, 0))
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+        """
+        self.table = QTableWidget(self.centralwidget)  # Создаём таблицу
+        self.table.setGeometry(QRect(10, 337, 1180, 400))
+        self.table.setColumnCount(4)  # Устанавливаем три колонки
+        self.table.setRowCount(1)  # и одну строку в таблице
+
+        # Устанавливаем заголовки таблицы
+        self.table.setHorizontalHeaderLabels(["Децимальный Номер", "Наименование", "Трудоёмкость", "Себестоимость"])
+
+        # Устанавливаем выравнивание на заголовки
+        self.table.horizontalHeaderItem(0).setTextAlignment(Qt.AlignLeft)
+        self.table.horizontalHeaderItem(1).setTextAlignment(Qt.AlignHCenter)
+        self.table.horizontalHeaderItem(2).setTextAlignment(Qt.AlignRight)
+        self.table.horizontalHeaderItem(3).setTextAlignment(Qt.AlignRight)
+        """
         self.tableView_1 = QTableView(self.centralwidget)
         self.tableView_1.setObjectName(u"tableView_1")
-        self.tableView_1.setGeometry(QRect(10, 337, 860, 400))
-        self.tableView_1.setMinimumSize(QSize(660, 400))
+        self.tableView_1.setGeometry(QRect(10, 337, 1180, 400))  # Изначальная ширина 860
+        self.tableView_1.setMinimumSize(QSize(1180, 400))
         self.tableView_1.setMaximumSize(QSize(16777215, 16777215))
+        """
+        """#Выключил две tableView, т.к. не синхронизируется скролл"""
         # self.tableView_2 = QTableView(self.centralwidget)
         # self.tableView_2.setObjectName(u"tableView_2")
         # self.tableView_2.setGeometry(QRect(669, 337, 161, 400))
