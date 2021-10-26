@@ -99,7 +99,11 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.model.setData(self.model.index(index, 4), self.ui.LEMaterialrate.text())
         self.model.setData(self.model.index(index, 5), self.ui.LEarea.text())
         self.model.setData(self.model.index(index, 6), self.ui.LEdeep.text())
+
+        """Проверка наличия значения в fieldlist и work_cost по артикулу"""
+        # DELETE FROM work_cost WHERE NOT EXISTS (SELECT * from fieldlist)
         fieldlist_for_validate_articul = []
+        work_cost_for_validate_articul = []
         connect_to_db = sqlite3.connect('fieldlist_var2.db')
         with connect_to_db:
             cursor_fieldlist_for_validate_articul = connect_to_db.cursor()
@@ -113,28 +117,22 @@ class KalkulationWindow(QtWidgets.QMainWindow):
                         print(self.ui.LEArticul.text())
                         QtWidgets.QMessageBox.about(self, 'Message', f"Деталь {self.ui.LEArticul.text()} уже заведена в базу.")
 
+            cursor_work_cost_for_validate_articul = connect_to_db.cursor()
+            cursor_work_cost_for_validate_articul.execute("SELECT detail FROM work_cost")
+            for row in cursor_work_cost_for_validate_articul:
+                work_cost_for_validate_articul.append(row)
+            for num_row, row_data in enumerate(work_cost_for_validate_articul):
+                for col_data in enumerate(row_data):
+                    if self.ui.LEArticul.text() in row_data:
+                        print(self.ui.LEArticul.text())
+                        QtWidgets.QMessageBox.about(self, 'Message', f"Расчёт {self.ui.LEArticul.text()} уже производился.")
+
                         """Здесь добавить действие возвращающее к заполнеию формы"""
-
-        self.model.submitAll()  # Перенести строку ниже, после валидации
+                    else:
+                        self.model.submitAll()  # Перенести строку ниже, после валидации
         print('onPBSaveclicked')
-        #print(self.ui.LEArticul.text())
-        #fdfdff_ = ["КЕ.2465.44"]
 
-        """Настроить проверку в fieldlist и work_cost по артикулу"""
-
-        # DELETE FROM work_cost WHERE NOT EXISTS (SELECT * from fieldlist)
-        # if self.model.itemData(1) in fieldlist_:
-        #     print(self.model.itemData[1])
-        #     QtWidgets.QMessageBox.text("Деталь уже заведена в базу.")
-        # else:
-        #     pass
-        """
-        if self.ui.LEArticul.text() in work_cost:
-            QtWidgets.QMessageBox.text("РАсчет уже выполнялся.")
-        else:
-        """
         fieldlist_ = []
-
         with connect_to_db:
             cursor_fieldlist_ = connect_to_db.cursor()
             cursor_fieldlist_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
@@ -153,8 +151,6 @@ class KalkulationWindow(QtWidgets.QMainWindow):
             for index in index_list:
                 self.model.removeRow(index.row())
                 connect_to_db = sqlite3.connect("fieldlist_var2.db")
-                cursor_work_cost_ = connect_to_db.cursor()
-                #cursor_work_cost_.execute(f"DELETE FROM work_cost WHERE detail = (?)", index)
             self.model.select()
             self.update_model_for_view()
         else:
