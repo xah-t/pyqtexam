@@ -1,13 +1,12 @@
 import sys
-import kalkulation_window2
-#import kalkulation_window_scrollarea
+import kalkulation_window
 import kalkulation_core
 import sqlite3
 from PySide2 import QtWidgets, QtCore, QtGui, QtSql
 from PySide2.QtSql import QSqlQuery
 from PySide2.QtWidgets import QTableWidgetItem
 from xlsx_extractor import Extractor
-"""PySide2-uic kalkulation_window_scrollarea.ui -o kalkulation_window_scrollarea.py"""
+
 
 class KalkulationWindow(QtWidgets.QMainWindow):
 
@@ -15,12 +14,8 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         print('init')
         QtWidgets.QMainWindow.__init__(self, parent)
         self.mykalkul_core = kalkulation_core.MyKalkulationCore()  # экземпляр класса MyKalkulationCore
-        self.ui = kalkulation_window2.Ui_MainWindow()
-        #self.ui = kalkulation_window_scrollarea.Ui_MainWindow()# # экземпляр класса Ui_MainWindow kalkulation_window_scrollarea
+        self.ui = kalkulation_window.Ui_MainWindow()
         self.ui.setupUi(self)
-        #self.ui.LElabour.setHidden(True)
-        #self.ui.LEprimecost.setHidden(True)
-        #self.ui.LEproductiontime.setHidden(True)
 
         validator = QtCore.QRegExp("[0-9]+[.]?[0-9]{,2}")
         ok = QtGui.QRegExpValidator(validator, self)
@@ -59,89 +54,28 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.db.setDatabaseName('fieldlist_var2.db')
         self.db.open()
         self.model_for_view = QtSql.QSqlQueryModel()
-    #     self.model_for_view.beginResetModel()
-    #
         self.query_ = str(
-            "SELECT fieldlist.articul, fieldlist.name, work_cost.work_cost_rub, work_cost.time_days, material_cost.material_cost_rub * fieldlist.material_rate_kg FROM fieldlist "
+            "SELECT fieldlist.articul, fieldlist.name, work_cost.labour, work_cost.work_cost_rub + "
+            "material_cost.material_cost_rub * fieldlist.material_rate_kg FROM fieldlist "
             "LEFT JOIN work_cost ON fieldlist.articul = work_cost.detail "
             "LEFT JOIN material_cost ON fieldlist.material = material_cost.material_mark"
             )
         self.model_for_view.setQuery(self.query_)
-        self.model_for_view.setHeaderData(0, QtCore.Qt.Horizontal, "Децимальный №")
-        self.model_for_view.setHeaderData(1, QtCore.Qt.Horizontal, "Наименование")
-        self.model_for_view.setHeaderData(2, QtCore.Qt.Horizontal, "Стоимость работы")
-        # self.model_for_view.setHeaderData(3, QtCore.Qt.Horizontal, "Материал")
-        # self.model_for_view.setHeaderData(4, QtCore.Qt.Horizontal, "Норма расхода материала, кг")
-        self.model_for_view.setHeaderData(3, QtCore.Qt.Horizontal, "Срок выполнения")
-        self.model_for_view.setHeaderData(4, QtCore.Qt.Horizontal, "Цена материала")
+        self.model_for_view.setHeaderData(0, QtCore.Qt.Horizontal, "Артикул детали")
+        self.model_for_view.setHeaderData(1, QtCore.Qt.Horizontal, "Наименование детали")
+        self.model_for_view.setHeaderData(2, QtCore.Qt.Horizontal, "Трудоёмкость, н/ч")
+        self.model_for_view.setHeaderData(3, QtCore.Qt.Horizontal, "Себестоимость, руб. с НДС")
         self.ui.tableView_1.setModel(self.model_for_view)
         self.ui.tableView_1.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.ui.tableView_1.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
-
-    #     self.model_for_view.endResetModel()
 
     def initSqlModel(self):
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
         self.db.setDatabaseName('fieldlist_var2.db')
         self.db.open()
-
-        #self.model_for_view = QtSql.QSqlQueryModel()
         self.model = QtSql.QSqlTableModel()
-
-
-        """Где то здесь прописать в переменную JOIN двух таблиц и ввести переменную как аргумент setTable?"""
-        """Создать функцию, которая будет создавть таблицу на стороне БД, передавать её в tableView и удалять после передачи"""
-        # connection_for_table_view = sqlite3.connect('fieldlist_var2.db')
-        # cursor_connection_for_table_view = connection_for_table_view.cursor()
-        # cursor_connection_for_table_view.execute('SELECT fieldlist.articul, fieldlist.name, work_cost.work_cost_rub, work_cost.time_days, material_cost.material_cost_rub FROM fieldlist'
-        #                                          ' LEFT JOIN work_cost ON fieldlist.articul = work_cost.detail'
-        #                                          ' LEFT JOIN material_cost ON fieldlist.material = material_cost.material_mark')
-        """Создать отдельную функцию по обновлению tableView и вызывать её после нажатия кнопок удаления и сохранения"""
-        """JOIN"""
-        """JOIN"""
-        """JOIN"""
-        """JOIN"""
-        #self.QtSql.QSqlQuery = ()
-        # query_ = str("SELECT fieldlist.articul, fieldlist.name, work_cost.work_cost_rub, work_cost.time_days, material_cost.material_cost_rub * fieldlist.material_rate_kg FROM fieldlist "
-        #             "LEFT JOIN work_cost ON fieldlist.articul = work_cost.detail "
-        #             "LEFT JOIN material_cost ON fieldlist.material = material_cost.material_mark"
-        #              )
-        # self.model_for_view.setQuery(query_)
-
-        self.model.setTable('fieldlist')  # название таблицы fieldlist, а не БД
-        self.model.select()  # вывод данных из таблицы в tableView_1
-        #self.model1.setTable('work_cost')
-        #self.model1.select()
-        # инициализация столбцов в tableView_1
-        # self.model_for_view.setHeaderData(0, QtCore.Qt.Horizontal, "Децимальный №")
-        # self.model_for_view.setHeaderData(1, QtCore.Qt.Horizontal, "Наименование")
-        # self.model_for_view.setHeaderData(2, QtCore.Qt.Horizontal, "Стоимость работы")
-        # # self.model_for_view.setHeaderData(3, QtCore.Qt.Horizontal, "Материал")
-        # # self.model_for_view.setHeaderData(4, QtCore.Qt.Horizontal, "Норма расхода материала, кг")
-        # self.model_for_view.setHeaderData(3, QtCore.Qt.Horizontal, "Срок выполнения")
-        # self.model_for_view.setHeaderData(4, QtCore.Qt.Horizontal, "Цена материала")
-        #self.model1.setHeaderData(0, QtCore.Qt.Horizontal, "ID")
-        #self.model1.setHeaderData(1, QtCore.Qt.Horizontal, "Idetail")
-        #self.model1.setHeaderData(0, QtCore.Qt.Horizontal, "labour")
-        """
-        self.ui.table.setItem(0, 0, QTableWidgetItem("Text in column 1"))
-        self.ui.table.setItem(0, 1, QTableWidgetItem("Text in column 2"))
-        self.ui.table.setItem(0, 2, QTableWidgetItem("Text in column 3"))
-        self.ui.table.setItem(0, 3, QTableWidgetItem("Text in column 4"))
-        """
-
-        # self.ui.tableView_1.setModel(self.model_for_view)
-        # #self.ui.tableView_1.setColumnHidden(0, True)  # скрытие столбцов
-        # #self.ui.tableView_1.setColumnHidden(3, True)
-        # #self.ui.tableView_1.setColumnHidden(4, True)
-        # self.ui.tableView_1.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
-        # self.ui.tableView_1.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
-        """
-        # self.ui.tableView_2.setModel(self.model1)
-        # self.ui.tableView_2.setColumnHidden(0, True)  # скрытие столбцов
-        # self.ui.tableView_2.setColumnHidden(1, True)
-        # self.ui.tableView_2.setColumnHidden(3, True)
-        """#Вставить данные из таблиц work_cost и material_cost"""
+        self.model.setTable('fieldlist')
+        self.model.select()
 
     def onPBRaschetclicked(self):
         self.mykalkul_core.setParameters(self.ui.LEname.text(),
@@ -151,7 +85,7 @@ class KalkulationWindow(QtWidgets.QMainWindow):
                                          self.ui.LEdeep.text(),
                                          self.ui.LEMaterial.text(),
                                          self.ui.LEMaterialrate.text())
-        self.mykalkul_core.start()
+        self.mykalkul_core.start()  # terminate - останавливает поток
         print('onPBRaschetclicked')
 
     def onPBSaveclicked(self):
@@ -163,17 +97,99 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.model.setData(self.model.index(index, 4), self.ui.LEMaterialrate.text())
         self.model.setData(self.model.index(index, 5), self.ui.LEarea.text())
         self.model.setData(self.model.index(index, 6), self.ui.LEdeep.text())
-        self.model.submitAll()
+
+        """Проверка наличия значения в fieldlist и work_cost по артикулу"""
+        # DELETE FROM work_cost WHERE NOT EXISTS (SELECT * from fieldlist)
+
+        value_ = self.ui.LEArticul.text()
+        if Extractor.check_synchro_in_db(value_):
+            QtWidgets.QMessageBox.about(self, 'Message', f"Деталь {self.ui.LEArticul.text()} уже заведена в базу.")
+            self.model.revertAll()
+        else:
+            self.model.submitAll()
+            connect_to_db = sqlite3.connect('fieldlist_var2.db')
+            with connect_to_db:  # разобраться, что за оператор такой фитрый
+                cursor_work_cost_ = connect_to_db.cursor()
+                cursor_work_cost_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
+                                          f"VALUES ('{self.ui.LEArticul.text()}', {self.ui.LElabour.text()}, {self.ui.LElabour.text()} * 2350, {self.ui.LEproductiontime.text()})")
+              # Перенести строку ниже, после валидации
         print('onPBSaveclicked')
-        fieldlist_ = []
+        self.update_model_for_view()
+        """
         connect_to_db = sqlite3.connect('fieldlist_var2.db')
-        with connect_to_db:
+        cursor_connect_to_db = connect_to_db.cursor()
+        cur = ''
+        cursor_connect_to_db.execute("SELECT articul from fieldlist where articul = ?", (value_,))
+        try:
+            cur = cursor_connect_to_db.fetchone()[0]
+            if value_ == cur:
+                print(True)
+                QtWidgets.QMessageBox.about(self, 'Message', f"Деталь {self.ui.LEArticul.text()} уже заведена в базу.")
+                self.model.revertAll()
+        except TypeError:
+            print(False)
+        finally:
+            connect_to_db = sqlite3.connect('fieldlist_var2.db')
             cursor_fieldlist_ = connect_to_db.cursor()
             cursor_fieldlist_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
                                       f"VALUES ('{self.ui.LEArticul.text()}', {self.ui.LElabour.text()}, {self.ui.LElabour.text()} * 2350, {self.ui.LEproductiontime.text()})")
-            for row in cursor_fieldlist_:
-                fieldlist_.append(row)
-        self.update_model_for_view()
+        self.model.submitAll()  # Перенести строку ниже, после валидации
+        """
+
+        """Скорректировать валидатор, условия перенести после обоих курсоров"""
+        """
+        with connect_to_db:
+            cursor_fieldlist_for_validate_articul = connect_to_db.cursor()
+            cursor_fieldlist_for_validate_articul.execute("SELECT articul FROM fieldlist where articul = ?", value_)
+            for row in cursor_fieldlist_for_validate_articul:
+                fieldlist_for_validate_articul.append(row)
+
+            cursor_work_cost_for_validate_articul = connect_to_db.cursor()
+            cursor_work_cost_for_validate_articul.execute("SELECT detail FROM work_cost")
+            for row in cursor_work_cost_for_validate_articul:
+                work_cost_for_validate_articul.append(row)
+            for num_row, row_data in enumerate(fieldlist_for_validate_articul):
+                for col_data in enumerate(row_data):
+                    if self.ui.LEArticul.text() in row_data:
+                        print(self.ui.LEArticul.text())
+                        QtWidgets.QMessageBox.about(self, 'Message', f"Деталь {self.ui.LEArticul.text()} уже заведена в базу.")
+                        self.model.revertAll()
+            for num_row, row_data in enumerate(work_cost_for_validate_articul):
+                for col_data in enumerate(row_data):
+                    if self.ui.LEArticul.text() in row_data:
+                        print(self.ui.LEArticul.text())
+                        QtWidgets.QMessageBox.about(self, 'Message', f"Расчёт {self.ui.LEArticul.text()} уже производился.")
+                        self.model.revertAll()
+                    else:
+                        cursor_fieldlist_ = connect_to_db.cursor()
+                        cursor_fieldlist_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
+                                                  f"VALUES ('{self.ui.LEArticul.text()}', {self.ui.LElabour.text()}, {self.ui.LElabour.text()} * 2350, {self.ui.LEproductiontime.text()})")
+                        self.model.submitAll()  # Перенести строку ниже, после валидации
+            """
+            # cursor_work_cost_for_validate_articul = connect_to_db.cursor()
+            # cursor_work_cost_for_validate_articul.execute("SELECT detail FROM work_cost")
+            # for row in cursor_work_cost_for_validate_articul:
+            #     work_cost_for_validate_articul.append(row)
+            # for num_row, row_data in enumerate(work_cost_for_validate_articul):
+            #     for col_data in enumerate(row_data):
+            #         if self.ui.LEArticul.text() in row_data:
+            #             print(self.ui.LEArticul.text())
+            #             QtWidgets.QMessageBox.about(self, 'Message', f"Расчёт {self.ui.LEArticul.text()} уже производился.")
+            #             self.model.revertAll()
+        """Здесь добавить действие возвращающее к заполнеию формы"""
+                   # else:
+
+
+
+        # fieldlist_ = []
+        # with connect_to_db:
+        #     cursor_fieldlist_ = connect_to_db.cursor()
+        #     cursor_fieldlist_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
+        #                               f"VALUES ('{self.ui.LEArticul.text()}', {self.ui.LElabour.text()}, {self.ui.LElabour.text()} * 2350, {self.ui.LEproductiontime.text()})")
+        #     for row in cursor_fieldlist_:
+        #         fieldlist_.append(row)
+
+
 
     def onPBMoveclicked(self):
         if self.ui.tableView_1.currentIndex().row() > -1:
@@ -182,7 +198,10 @@ class KalkulationWindow(QtWidgets.QMainWindow):
                 index = QtCore.QPersistentModelIndex(model_index)
                 index_list.append(index)
             for index in index_list:
-                 self.model.removeRow(index.row())
+                self.model.removeRow(index.row())
+                # connect_to_db = sqlite3.connect("fieldlist_var2.db")
+                # cursor_work_cost_ = connect_to_db.cursor()
+                # cursor_work_cost_.execute(f"DELETE FROM work_cost WHERE NOT EXISTS (SELECT * from fieldlist)")
             self.model.select()
             self.update_model_for_view()
         else:
@@ -193,7 +212,7 @@ class KalkulationWindow(QtWidgets.QMainWindow):
     def onPBExtractclicked(self):
         new_reestr = Extractor()
         new_reestr.init_tables()
-        new_reestr.close()  # разобраться с выгрузкой файла, сразу при нажатии кнопки.
+        new_reestr.close()
         new_reestr.show()
         print("onPBExtractclicked")
 

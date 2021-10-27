@@ -17,28 +17,29 @@ class Extractor():
         connect_to_db = sqlite3.connect('fieldlist_var2.db')  # fieldlist_var2.db
 
         """Попробовать JOINить таблицы, чтобы резулььат в xls приходил синхронизированный"""
+        #DELETE FROM work_cost WHERE (SELECT COUNT(*) FROM fieldlist WHERE fieldlist.articul = work_cost.detail) = 0
 
         with connect_to_db:
             cursor_fieldlist_ = connect_to_db.cursor()
-            cursor_fieldlist_.execute("SELECT id, articul, name FROM fieldlist")  # ORDER BY id DESC LIMIT 10
+            cursor_fieldlist_.execute("SELECT id, articul, name FROM fieldlist")
             for row in cursor_fieldlist_:
                 fieldlist_.append(row)
             cursor_work_cost_ = connect_to_db.cursor()
-            cursor_work_cost_.execute("SELECT labour, work_cost_rub FROM work_cost, fieldlist WHERE detail LIKE fieldlist.articul")
+            cursor_work_cost_.execute("SELECT labour, work_cost_rub FROM work_cost, fieldlist "
+                                      "WHERE work_cost.detail = fieldlist.articul")
             for row in cursor_work_cost_:
                 work_cost_.append(row)
             cursor_material_cost_ = connect_to_db.cursor()
-            cursor_material_cost_.execute(f"SELECT material_cost.material_cost_rub * fieldlist.material_rate_kg AS mfinal_cost FROM material_cost, fieldlist,"
-                                          f"work_cost WHERE material_cost.material_mark LIKE fieldlist.material "
-                                          f"AND work_cost.detail = fieldlist.articul")
+            cursor_material_cost_.execute(f"SELECT material_cost.material_cost_rub * fieldlist.material_rate_kg AS mfinal_cost "
+                                          f"FROM material_cost, fieldlist, work_cost WHERE material_cost.material_mark "
+                                          f"LIKE fieldlist.material AND work_cost.detail = fieldlist.articul")
             for row in cursor_material_cost_:
                 material_cost_.append(row)
             cursor_total_cost_ = connect_to_db.cursor()
-            cursor_total_cost_.execute(f"SELECT work_cost.work_cost_rub + material_cost.material_cost_rub * fieldlist.material_rate_kg"
-                                       f" AS final_cost FROM work_cost, material_cost,"
+            cursor_total_cost_.execute(f"SELECT work_cost.work_cost_rub + material_cost.material_cost_rub * fieldlist.material_rate_kg "
+                                       f"AS final_cost FROM work_cost, material_cost, "
                                        f"fieldlist WHERE material_cost.material_mark LIKE fieldlist.material "
                                        f"AND work_cost.detail = fieldlist.articul")
-            # прописать значение н.р. здесь как множитель material_cost, или сначала выгрузить material_cost в переменную, а потом умножить на н.р.??
             for row in cursor_total_cost_:
                 total_cost_.append(row)
 
@@ -53,13 +54,10 @@ class Extractor():
         worksheet.write('A1', 'ID', bold)
         worksheet.write('B1', 'Децимальный №', bold)
         worksheet.write('C1', 'Наименование', bold)
-        #worksheet.write('D1', 'Площадь поверхности, мм2', bold)
-        #worksheet.write('E1', 'Глубина обработки, мм"', bold)
         worksheet.write('D1', 'Трудоемкость, н/ч', bold)
         worksheet.write('E1', 'Стоимость работ, руб. с НДС', bold)
         worksheet.write('F1', 'Cтоимость материала, руб. с НДС', bold)
         worksheet.write('G1', 'Общая стоимость, руб. с НДС', bold)
-        #worksheet.write('H1', 'Срок изготовления партии,  дней', bold)  #нужно взять из другой таблицы
 
         # Write some data.
         for num_row, row_data in enumerate(fieldlist_):  # expenses
@@ -83,6 +81,18 @@ class Extractor():
     def show(self):
         self.path = "C:/python/VKR/pyqtexam/Реестр_" + str(datetime.date.today()) + ".xlsx"
         subprocess.Popen(self.path, shell=True)
+
+    def check_synchro_in_db(val):
+        connect_to_db = sqlite3.connect('fieldlist_var2.db')
+        cursor_connect_to_db = connect_to_db.cursor()
+        cur = ''
+        cursor_connect_to_db.execute("SELECT articul from fieldlist where articul = ?", (val,))
+        try:
+            cur = cursor_connect_to_db.fetchone()[0]
+            if val == cur:
+                return True
+        except TypeError:
+            return False
 
 
 def download_catalog(path):
