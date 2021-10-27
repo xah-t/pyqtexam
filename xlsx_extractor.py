@@ -14,11 +14,7 @@ class Extractor():
         work_cost_ = []
         material_cost_ = []
         total_cost_ = []
-        connect_to_db = sqlite3.connect('fieldlist_var2.db')  # fieldlist_var2.db
-
-        """Попробовать JOINить таблицы, чтобы резулььат в xls приходил синхронизированный"""
-        #DELETE FROM work_cost WHERE (SELECT COUNT(*) FROM fieldlist WHERE fieldlist.articul = work_cost.detail) = 0
-
+        connect_to_db = sqlite3.connect('fieldlist_var2.db')
         with connect_to_db:
             cursor_fieldlist_ = connect_to_db.cursor()
             cursor_fieldlist_.execute("SELECT id, articul, name FROM fieldlist")
@@ -43,14 +39,11 @@ class Extractor():
             for row in cursor_total_cost_:
                 total_cost_.append(row)
 
-        # Create an new Excel file and add a worksheet.
         workbook = xlsxwriter.Workbook('Реестр_' + str(datetime.date.today()) + '.xlsx')
         worksheet = workbook.add_worksheet(str(datetime.date.today()))
 
-        # Add a bold format to use to highlight cells.
         bold = workbook.add_format({'bold': True})
 
-        # Write data headers.
         worksheet.write('A1', 'ID', bold)
         worksheet.write('B1', 'Децимальный №', bold)
         worksheet.write('C1', 'Наименование', bold)
@@ -59,7 +52,6 @@ class Extractor():
         worksheet.write('F1', 'Cтоимость материала, руб. с НДС', bold)
         worksheet.write('G1', 'Общая стоимость, руб. с НДС', bold)
 
-        # Write some data.
         for num_row, row_data in enumerate(fieldlist_):  # expenses
             for num_col, col_data in enumerate(row_data):
                 worksheet.write(num_row+1, num_col, col_data)
@@ -82,7 +74,7 @@ class Extractor():
         self.path = "C:/python/VKR/pyqtexam/Реестр_" + str(datetime.date.today()) + ".xlsx"
         subprocess.Popen(self.path, shell=True)
 
-    def check_synchro_in_db(val):
+    def check_input_in_db(val):
         connect_to_db = sqlite3.connect('fieldlist_var2.db')
         cursor_connect_to_db = connect_to_db.cursor()
         cur = ''
