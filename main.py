@@ -1,8 +1,9 @@
 import sys
+from PySide2 import QtWidgets, QtCore, QtGui, QtSql
+import sqlite3
+
 import kalkulation_window
 import kalkulation_core
-import sqlite3
-from PySide2 import QtWidgets, QtCore, QtGui, QtSql
 from xlsx_extractor import Extractor
 
 
@@ -101,7 +102,7 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         else:
             self.model.submitAll()
             connect_to_db = sqlite3.connect('fieldlist_var2.db')
-            with connect_to_db:  # разобраться, что за оператор такой фитрый
+            with connect_to_db:
                 cursor_work_cost_ = connect_to_db.cursor()
                 cursor_work_cost_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
                                           f"VALUES ('{self.ui.LEArticul.text()}', {self.ui.LElabour.text()}, {self.ui.LElabour.text()} * 2350, {self.ui.LEproductiontime.text()})"
