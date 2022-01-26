@@ -7,9 +7,18 @@ import subprocess
 
 
 class Extractor():
-    """Класс для вывода Реестра в xlsx файл"""
+    """Класс для вывода Реестра в xlsx файл.
+
+    Functions:
+    init_tables,
+    close,
+    show,
+    check_synchro_in_db.
+    """
 
     def init_tables(self):
+        """Создает xlsx файл, и добавляет в него данные из БД."""
+
         fieldlist_ = []
         work_cost_ = []
         material_cost_ = []
@@ -75,14 +84,22 @@ class Extractor():
         return workbook
 
     def close(self):
+        """Закрывает xlsx файл, после внесения изменений."""
+
         self.workbook = self.init_tables()
         self.workbook.close()
 
     def show(self):
+        """Открывает для просмотра xlsx файл."""
+
         self.path = "C:/python/VKR/pyqtexam/Реестр_" + str(datetime.date.today()) + ".xlsx"
         subprocess.Popen(self.path, shell=True)
 
     def check_synchro_in_db(val):
+        """Возвращает True, если значение аргумента в БД.
+
+        Argument: val
+        """
         connect_to_db = sqlite3.connect('fieldlist_var2.db')
         cursor_connect_to_db = connect_to_db.cursor()
         cur = ''
@@ -96,8 +113,10 @@ class Extractor():
 
 
 def download_catalog(path):
+    """Функция загрузки прайса на материал в БД.
 
-    """Функция загрузки прайса на матераил в БД"""
+    Argument: path
+    """
 
     wb_obj = openpyxl.load_workbook(path)
     sheet_obj = wb_obj.active
