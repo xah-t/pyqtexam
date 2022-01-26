@@ -9,15 +9,17 @@ from xlsx_extractor import Extractor
 
 
 class KalkulationWindow(QtWidgets.QMainWindow):
+    """"""
 
     def __init__(self, parent=None):
-        print('init')
         QtWidgets.QMainWindow.__init__(self, parent)
         self.mykalkul_core = kalkulation_core.MyKalkulationCore()  # экземпляр класса MyKalkulationCore
         self.ui = kalkulation_window.Ui_MainWindow()
         self.ui.setupUi(self)
 
         validator = QtCore.QRegExp("[0-9]+[.]?[0-9]{,2}")
+        """Валидация вводимых числовых данных (Площадь, глубина, количество, н.р. материала"""
+
         ok = QtGui.QRegExpValidator(validator, self)
         self.ui.LEarea.setValidator(ok)
         self.ui.LEarea.setFocus()
@@ -50,6 +52,8 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.ui.LEproductiontime.setText(text)
 
     def update_model_for_view(self):  # ,data
+        """Отображает tableView, обновляет строки, подгружая данные из БД"""
+
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
         self.db.setDatabaseName('fieldlist_var2.db')
         self.db.open()
@@ -70,6 +74,8 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.ui.tableView_1.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
 
     def initSqlModel(self):
+        """Инициализация модели на основе таблицы из БД"""
+
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
         self.db.setDatabaseName('fieldlist_var2.db')
         self.db.open()
@@ -78,6 +84,8 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.model.select()
 
     def onPBRaschetclicked(self):
+        """При нажатии кнопки "Рассчитать", передает данные из lineEdits в модуль с расчетами"""
+
         self.mykalkul_core.setParameters(self.ui.LEname.text(),
                                          self.ui.LEArticul.text(),
                                          self.ui.LEamount.text(),
@@ -86,9 +94,10 @@ class KalkulationWindow(QtWidgets.QMainWindow):
                                          self.ui.LEMaterial.text(),
                                          self.ui.LEMaterialrate.text())
         self.mykalkul_core.start()  # terminate - останавливает поток
-        print('onPBRaschetclicked')
 
     def onPBSaveclicked(self):
+        """При нажатии кнопки "Сохранить расчет в реестр" передает в SQL-модель данные из lineEdits"""
+
         index = self.model.rowCount()
         self.model.insertRows(index, 1)
         self.model.setData(self.model.index(index, 1), self.ui.LEArticul.text())
@@ -98,100 +107,24 @@ class KalkulationWindow(QtWidgets.QMainWindow):
         self.model.setData(self.model.index(index, 5), self.ui.LEarea.text())
         self.model.setData(self.model.index(index, 6), self.ui.LEdeep.text())
 
-        """Проверка наличия значения в fieldlist и work_cost по артикулу"""
-        # DELETE FROM work_cost WHERE NOT EXISTS (SELECT * from fieldlist)
-
         value_ = self.ui.LEArticul.text()
         if Extractor.check_synchro_in_db(value_):
+            """Проверка наличия значения в fieldlist и work_cost по артикулу"""
+
             QtWidgets.QMessageBox.about(self, 'Message', f"Деталь {self.ui.LEArticul.text()} уже заведена в базу.")
             self.model.revertAll()
         else:
             self.model.submitAll()
             connect_to_db = sqlite3.connect('fieldlist_var2.db')
-            with connect_to_db:  # разобраться, что за оператор такой фитрый
+            with connect_to_db:
                 cursor_work_cost_ = connect_to_db.cursor()
                 cursor_work_cost_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
                                           f"VALUES ('{self.ui.LEArticul.text()}', {self.ui.LElabour.text()}, {self.ui.LElabour.text()} * 2350, {self.ui.LEproductiontime.text()})")
-              # Перенести строку ниже, после валидации
-        print('onPBSaveclicked')
         self.update_model_for_view()
-        """
-        connect_to_db = sqlite3.connect('fieldlist_var2.db')
-        cursor_connect_to_db = connect_to_db.cursor()
-        cur = ''
-        cursor_connect_to_db.execute("SELECT articul from fieldlist where articul = ?", (value_,))
-        try:
-            cur = cursor_connect_to_db.fetchone()[0]
-            if value_ == cur:
-                print(True)
-                QtWidgets.QMessageBox.about(self, 'Message', f"Деталь {self.ui.LEArticul.text()} уже заведена в базу.")
-                self.model.revertAll()
-        except TypeError:
-            print(False)
-        finally:
-            connect_to_db = sqlite3.connect('fieldlist_var2.db')
-            cursor_fieldlist_ = connect_to_db.cursor()
-            cursor_fieldlist_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
-                                      f"VALUES ('{self.ui.LEArticul.text()}', {self.ui.LElabour.text()}, {self.ui.LElabour.text()} * 2350, {self.ui.LEproductiontime.text()})")
-        self.model.submitAll()  # Перенести строку ниже, после валидации
-        """
-
-        """Скорректировать валидатор, условия перенести после обоих курсоров"""
-        """
-        with connect_to_db:
-            cursor_fieldlist_for_validate_articul = connect_to_db.cursor()
-            cursor_fieldlist_for_validate_articul.execute("SELECT articul FROM fieldlist where articul = ?", value_)
-            for row in cursor_fieldlist_for_validate_articul:
-                fieldlist_for_validate_articul.append(row)
-
-            cursor_work_cost_for_validate_articul = connect_to_db.cursor()
-            cursor_work_cost_for_validate_articul.execute("SELECT detail FROM work_cost")
-            for row in cursor_work_cost_for_validate_articul:
-                work_cost_for_validate_articul.append(row)
-            for num_row, row_data in enumerate(fieldlist_for_validate_articul):
-                for col_data in enumerate(row_data):
-                    if self.ui.LEArticul.text() in row_data:
-                        print(self.ui.LEArticul.text())
-                        QtWidgets.QMessageBox.about(self, 'Message', f"Деталь {self.ui.LEArticul.text()} уже заведена в базу.")
-                        self.model.revertAll()
-            for num_row, row_data in enumerate(work_cost_for_validate_articul):
-                for col_data in enumerate(row_data):
-                    if self.ui.LEArticul.text() in row_data:
-                        print(self.ui.LEArticul.text())
-                        QtWidgets.QMessageBox.about(self, 'Message', f"Расчёт {self.ui.LEArticul.text()} уже производился.")
-                        self.model.revertAll()
-                    else:
-                        cursor_fieldlist_ = connect_to_db.cursor()
-                        cursor_fieldlist_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
-                                                  f"VALUES ('{self.ui.LEArticul.text()}', {self.ui.LElabour.text()}, {self.ui.LElabour.text()} * 2350, {self.ui.LEproductiontime.text()})")
-                        self.model.submitAll()  # Перенести строку ниже, после валидации
-            """
-            # cursor_work_cost_for_validate_articul = connect_to_db.cursor()
-            # cursor_work_cost_for_validate_articul.execute("SELECT detail FROM work_cost")
-            # for row in cursor_work_cost_for_validate_articul:
-            #     work_cost_for_validate_articul.append(row)
-            # for num_row, row_data in enumerate(work_cost_for_validate_articul):
-            #     for col_data in enumerate(row_data):
-            #         if self.ui.LEArticul.text() in row_data:
-            #             print(self.ui.LEArticul.text())
-            #             QtWidgets.QMessageBox.about(self, 'Message', f"Расчёт {self.ui.LEArticul.text()} уже производился.")
-            #             self.model.revertAll()
-        """Здесь добавить действие возвращающее к заполнеию формы"""
-                   # else:
-
-
-
-        # fieldlist_ = []
-        # with connect_to_db:
-        #     cursor_fieldlist_ = connect_to_db.cursor()
-        #     cursor_fieldlist_.execute(f"INSERT INTO work_cost(detail, labour, work_cost_rub, time_days)"
-        #                               f"VALUES ('{self.ui.LEArticul.text()}', {self.ui.LElabour.text()}, {self.ui.LElabour.text()} * 2350, {self.ui.LEproductiontime.text()})")
-        #     for row in cursor_fieldlist_:
-        #         fieldlist_.append(row)
-
-
 
     def onPBMoveclicked(self):
+        """Удалаяет из БД данные, соответсвующие выделенной в tableview строке"""
+
         if self.ui.tableView_1.currentIndex().row() > -1:
             index_list = []
             for model_index in self.ui.tableView_1.selectionModel().selectedRows():
@@ -199,32 +132,28 @@ class KalkulationWindow(QtWidgets.QMainWindow):
                 index_list.append(index)
             for index in index_list:
                 self.model.removeRow(index.row())
-                # connect_to_db = sqlite3.connect("fieldlist_var2.db")
-                # cursor_work_cost_ = connect_to_db.cursor()
-                # cursor_work_cost_.execute(f"DELETE FROM work_cost WHERE NOT EXISTS (SELECT * from fieldlist)")
             self.model.select()
             self.update_model_for_view()
         else:
             QtWidgets.QMessageBox.about(self, 'Message', 'Выберите строку')
-        print("onPBMoveClicked")
-
 
     def onPBExtractclicked(self):
+        """Вызывает функцию Extractor"""
+
         new_reestr = Extractor()
         new_reestr.init_tables()
         new_reestr.close()
         new_reestr.show()
-        print("onPBExtractclicked")
 
     def closeEvent(self, event: QtCore.QEvent.Close):
+        """Выход из приложения"""
+
         reply = QtWidgets.QMessageBox.question(self, "Выход", "Вы действительно хотите выйти?")
         print(reply)
         if reply == QtWidgets.QMessageBox.Yes:
             event.accept()
-            print('Window closed')
         elif reply == QtWidgets.QMessageBox.No:
             event.ignore()
-            print('Window not closed')
 
     def event(self, event: QtCore.QEvent) -> bool:
         if event.type() == QtCore.QEvent.Type.Close:
