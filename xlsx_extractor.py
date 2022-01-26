@@ -7,6 +7,7 @@ import subprocess
 
 
 class Extractor():
+
     """Класс для вывода Реестра в xlsx файл"""
 
     def init_tables(self):
